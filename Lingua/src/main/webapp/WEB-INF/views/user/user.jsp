@@ -9,10 +9,10 @@
 				"top top top"
 				"left main right"
 				"bottom bottom bottom";
-			grid-template-columns: 1fr 3fr;
-			grid-template-rows: auto 1fr auto;
-			min-height: 100vh;
+			grid-template-columns: auto 3fr auto;
+			grid-template-rows: auto 3fr auto;
 			grid-gap: 10px;
+			min-height: 95vh;
 		}
 		
 		#top    {	grid-area: top;		}
