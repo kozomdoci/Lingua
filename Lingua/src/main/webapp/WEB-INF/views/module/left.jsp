@@ -2,20 +2,3 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<html>
-<head>
-</head>
-<body>
-	<table border="1" style="border-collapse: collapse;">
-		<tr>
-			<td>
-				left.jsp 입니다.
-			</td>
-		</tr>
-	</table>
-</body>
-</html>
-
-
-
-

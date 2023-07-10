@@ -10,9 +10,11 @@
 		</layout>
 	</appender>
 	
+	<!-- Application Loggers 의 레벨 처리 (개발단계 debug 로 변경) -->
 	<!-- Application Loggers -->
 	<logger name="com.lgy.lingua">
-		<level value="info" />
+<!-- 		<level value="info" /> -->
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
