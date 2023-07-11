@@ -5,7 +5,7 @@
 <mapper namespace="com.lgy.lingua.dao.UserDao">
 	
 	<select id="login" parameterType="hashmap" resultType="com.lgy.lingua.dto.UserDto">
-		select password from user where email=#{email}
+		select * from user where email=#{email}
 	</select>
 	
 </mapper>

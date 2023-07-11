@@ -14,20 +14,22 @@
 		<div id="main">
 		
 			<section>
+			
 				<form id="loginForm" action="login" method="post">
 				
-			    	<div class="mb-3">
-				    	<label for="exampleInputEmail1" class="form-label">Email address</label>
-				    	<input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-				  	</div>
-				  	
-				  	<div class="mb-3">
-				    	<label for="exampleInputPassword1" class="form-label">Password</label>
-				    	<input name="password" type="password" class="form-control" id="exampleInputPassword1">
-				  	</div>
-				  	
+					<div class="form-floating mb-3">
+	  					<input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+	  					<label for="floatingInput">Email address</label>
+					</div>
+					
+					<div class="form-floating">
+	  					<input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+	  					<label for="floatingPassword">Password</label>
+					</div>
+
 				  	<div>
-				  		<button id="loginCheck" type="button" class="btn btn-primary">Login</button>
+					  	<button id="loginCheck" type="button" class="btn btn-primary">Sign In</button>
+				  		<button id="register" type="button" class="btn btn-info" style="color: white;">Sign Up</button>
 				  	</div>
 				  	
 				</form>
@@ -52,11 +54,19 @@
 			type: "post",
 			data: formData,
 			url: "login",
-			success: function(data) {
-				console.log(data);
+			success: function(data, status) {
+				console.log(data);		// wrong password
+				console.log(status);	// success
 			}
 		}); // ajax
-	}); // login 버튼
+	}); // Sign In Button
+	
+	$("#register").click(function() {
+		location.href = urlConverter("user/register");
+	}); // Sign Up Button
+	
+
+	
 </script>
 
 

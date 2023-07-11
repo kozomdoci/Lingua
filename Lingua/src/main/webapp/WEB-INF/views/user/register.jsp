@@ -10,7 +10,16 @@
 		<div id="left"><%@ include file="../module/left.jsp" %></div>
 		<div id="right"><%@ include file="../module/right.jsp" %></div>
 		<div id="bottom"><%@ include file="../module/bottom.jsp" %></div>
-		<div id="main">register.jsp 입니다.</div>
+		
+		<div id="main">
+			
+			<section>
+				<form id="registerForm" action="register" method="post">
+					
+				</form>
+			</section>
+		
+		</div>
 	</div>
 </body>
 </html>
