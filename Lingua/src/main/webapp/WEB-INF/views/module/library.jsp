@@ -8,6 +8,16 @@
 <!-- 부트스트랩 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
+
+<script>
+	function urlConverter(mappingURL) {
+		var urlCheck = window.location.href;
+		return "http://" + window.location.host + "/lingua/" + mappingURL;
+	}
+</script>
+
+
+
 <style>
 * {
 	margin: 3px;
@@ -35,7 +45,7 @@
 section {
 	padding: 10px;
 	width: 100%;
-	max-width: 900px;
+	max-width: 500px;
 	min-height: 20vh;
 	margin: 100px auto;
 }
