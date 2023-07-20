@@ -45,9 +45,29 @@
 section {
 	padding: 10px;
 	width: 100%;
-	max-width: 500px;
 	min-height: 20vh;
 	margin: 100px auto;
 }
 
+#wideSection {
+	max-width: auto;
+	background-color: rgba(255, 255, 128, .5);
+}
+
+#narrowSection {
+	max-width: 500px;
+}
+
+#loginCheck, #registerPage {
+	margin-top: 20px;
+}
+
 </style>
+
+
+
+
+
+
+
+

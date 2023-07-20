@@ -2,6 +2,8 @@ package com.lgy.lingua.controller;
 
 import java.util.HashMap;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class UserController {
 	@Autowired private MethodCollection methods;
 	
 	// 회원가입 화면 JSP 이동
-	@GetMapping("register")
+	@GetMapping("/register")
 	public String register() {
 		log.debug("UserController ===> @GetMapping(\"/register\")");
 		return "/user/register";
@@ -41,13 +43,43 @@ public class UserController {
 	}
 	
 	// 회원정보 화면 JSP 이동
-	@GetMapping("/user")
+	@GetMapping("/userInfo")
 	public String user() {
-		log.debug("UserController ===> @GetMapping(\"/user\")");
-		return "/user/user";
+		log.debug("UserController ===> @GetMapping(\"/userInfo\")");
+		return "/user/userInfo";
 	}
 	
-	// 로그인 처리 (아이디 조회, 비밀번호 일치여부 확인)
+	// 회원가입 처리 (1) 이메일 중복확인
+	@PostMapping("/isEmailAvailable")
+	public ResponseEntity<String> isEmailAvailable(@RequestParam HashMap<String, String> params) {
+		log.debug("UserController ===> @PostMapping(\"/isEmailAvailable\")");
+		UserDto dto = command.login(params);
+		log.debug("dto ===> " + dto);
+		
+		if(dto != null) {
+			log.debug("UserController ===> 가입할 수 없는 이메일");
+			return ResponseEntity.ok().body("invalid email");
+		}else {
+			log.debug("UserController ===> 가입할 수 있는 이메일");
+			return ResponseEntity.ok().body("valid email");
+		}
+	}
+	
+	// 회원가입 처리 (2) 인증번호 발송
+	@PostMapping("/sendCode")
+	public ResponseEntity<String> sendCode(@RequestParam HashMap<String, String> params) throws AddressException, MessagingException {
+		log.debug("UserController ===> @PostMapping(\"/sendCode\")");
+		log.debug("email??? "+params.get("email"));
+		log.debug("==================================================================");
+		String codeStr = methods.sendCodeByEmail(params.get("email"));
+		log.debug("==================================================================");
+		log.debug("codeStr??? "+codeStr);
+		
+		return ResponseEntity.ok().body(codeStr);
+	}
+	
+	
+	// 로그인 처리 (아이디 조회 후 비밀번호 일치여부 확인)
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestParam HashMap<String, String> params, HttpSession session) {
 		log.debug("UserController ===> @PostMapping(\"/login\")");
@@ -66,15 +98,16 @@ public class UserController {
 			log.debug("UserCommandImpl ===> inputPassword ===> " + inputPassword);
 			
 			// 사용자 입력값과 DB비밀번호의 일치여부 확인
-			boolean passwordMatches = methods.passwordMatches(inputPassword, dbPassword);
+//			boolean passwordMatches = methods.passwordMatches(inputPassword, dbPassword);
 			
-			if(passwordMatches) {
+			if(inputPassword.equals(dbPassword)) {
+//			if(passwordMatches) {
 				// 사용자 정보 있고, 비밀번호 일치
-				
+				log.debug("UserCommandImpl ===> 사용자 정보 있고, 비밀번호 일치");
 				session.setAttribute("userInfo", dto);
 				session.setMaxInactiveInterval(1800);
 				
-				return ResponseEntity.ok().body("success");
+				return ResponseEntity.ok().body("login success");
 				
 			}else {
 				// 사용자 정보는 있으나, 비밀번호 불일치

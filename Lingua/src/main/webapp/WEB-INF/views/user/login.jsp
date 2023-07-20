@@ -6,6 +6,7 @@
 </head>
 <body>
 	<div id="container">
+	
 		<div id="top"><%@ include file="../module/top.jsp" %></div>
 		<div id="left"><%@ include file="../module/left.jsp" %></div>
 		<div id="right"><%@ include file="../module/right.jsp" %></div>
@@ -13,8 +14,7 @@
 		
 		<div id="main">
 		
-			<section>
-			
+			<section id="narrowSection">
 				<form id="loginForm" action="login" method="post">
 				
 					<div class="form-floating mb-3">
@@ -26,16 +26,17 @@
 	  					<input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
 	  					<label for="floatingPassword">Password</label>
 					</div>
-
+					
 				  	<div>
 					  	<button id="loginCheck" type="button" class="btn btn-primary">Sign In</button>
-				  		<button id="register" type="button" class="btn btn-info" style="color: white;">Sign Up</button>
+				  		<button id="registerPage" type="button" class="btn btn-info" style="color: white;">Sign Up</button>
 				  	</div>
 				  	
 				</form>
 			</section>
 			
 		</div>
+		
 	</div>
 </body>
 </html>
@@ -54,18 +55,16 @@
 			type: "post",
 			data: formData,
 			url: "login",
-			success: function(data, status) {
-				console.log(data);		// wrong password
-				console.log(status);	// success
+			success: function(data) {
+				console.log(data);		// login success OR wrong password OR email not found
+				// 전달되는 데이터(text) 에 따라서 분기처리 추가 작업 해야 함
 			}
 		}); // ajax
 	}); // Sign In Button
 	
-	$("#register").click(function() {
+	$("#registerPage").click(function() {
 		location.href = urlConverter("user/register");
 	}); // Sign Up Button
-	
-
 	
 </script>
 

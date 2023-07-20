@@ -14,7 +14,7 @@
 			<a class="menu-btn" id="main/board">
 		    <button type="button" id="board" class="btn btn-outline-dark">Board</button>
 		    </a>
-			<a class="menu-btn" id="user/user">
+			<a class="menu-btn" id="user/userInfo">
 		    <button type="button" id="account" class="btn btn-outline-dark">My Info</button>
 		    </a>
 			<a class="menu-btn" id="user/login">
@@ -28,7 +28,7 @@
 $(document).ready(function() {
 	
 	$(".menu-btn").click(function() {
-		location.href = urlConverter( $(this).attr("id"));
+		location.href = urlConverter($(this).attr("id"));
 	});
 	
 }); // document
