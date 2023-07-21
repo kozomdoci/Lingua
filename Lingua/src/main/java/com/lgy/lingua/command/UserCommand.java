@@ -6,6 +6,7 @@ import com.lgy.lingua.dto.UserDto;
 
 public interface UserCommand {
 	UserDto login(HashMap<String, String> params);
+	void register(HashMap<String, String> params);
 }
 
 

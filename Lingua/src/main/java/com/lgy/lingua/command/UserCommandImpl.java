@@ -30,6 +30,15 @@ public class UserCommandImpl implements UserCommand {
 		
 		return dto;
 	}
+
+	// 회원정보 삽입(활용: 회원가입)
+	@Override
+	public void register(HashMap<String, String> params) {
+		log.debug("UserCommandImpl ===> register");
+		UserDao dao = sqlSession.getMapper(UserDao.class);
+		dao.register(params);
+		
+	}
 	
 	
 	

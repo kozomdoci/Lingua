@@ -58,6 +58,14 @@
 			success: function(data) {
 				console.log(data);		// login success OR wrong password OR email not found
 				// 전달되는 데이터(text) 에 따라서 분기처리 추가 작업 해야 함
+				if(data == "login success") {
+					alert("로그인 성공!");
+					location.href = urlConverter("main/home");
+				}else if(data == "wrong password") {
+					alert("비밀번호 불일치");
+				}else {
+					alert("회원정보 없음");
+				}
 			}
 		}); // ajax
 	}); // Sign In Button
