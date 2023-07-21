@@ -58,7 +58,7 @@ section {
 	max-width: 500px;
 }
 
-#loginCheck, #registerPage {
+#loginCheck, #registerPage, #register {
 	margin-top: 20px;
 }
 

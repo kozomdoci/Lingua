@@ -8,6 +8,13 @@
 		select * from user where email=#{email}
 	</select>
 	
+	<insert id="register" parameterType="hashmap">
+		insert into user values(#{email}, #{nickname}, #{password}, #{imgPath}, 'user', #{korean}, #{english}, #{japanese}, #{polish})
+	</insert>
+	
 </mapper>
+
+
+
 
 

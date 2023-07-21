@@ -14,13 +14,10 @@ public class UserDto {
 	private String imgPath;
 	private String authority;
 	
-	/*
-	email VARCHAR(100)
-	nickname VARCHAR(100)
-	password VARCHAR(100)
-	imgPath LONGTEXT
-	authority ENUM('user','admin')
-	*/
+	private String korean;
+	private String english;
+	private String japanese;
+	private String polish;
 }
 
 

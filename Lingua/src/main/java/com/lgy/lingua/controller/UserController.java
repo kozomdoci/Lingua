@@ -65,21 +65,55 @@ public class UserController {
 		}
 	}
 	
+	// 인증번호 검증을 위한 전역변수
+	String codeStr = "";
+	
 	// 회원가입 처리 (2) 인증번호 발송
 	@PostMapping("/sendCode")
 	public ResponseEntity<String> sendCode(@RequestParam HashMap<String, String> params) throws AddressException, MessagingException {
 		log.debug("UserController ===> @PostMapping(\"/sendCode\")");
 		log.debug("email??? "+params.get("email"));
 		log.debug("==================================================================");
-		String codeStr = methods.sendCodeByEmail(params.get("email"));
+		codeStr = methods.sendCodeByEmail(params.get("email"));
 		log.debug("==================================================================");
 		log.debug("codeStr??? "+codeStr);
 		
 		return ResponseEntity.ok().body(codeStr);
 	}
 	
+	// 회원가입 처리 (3) 사용자가 입력한 인증번호 검증(true/false)
+	@PostMapping("/isValidCode")
+	public ResponseEntity<Boolean> isValidCode(@RequestParam HashMap<String, String> params) {
+		log.debug("UserController ===> @PostMapping(\"/isValidCode\")");
+	    boolean isCodeMatching = params.get("code").equals(codeStr);
+	    log.debug("code??? "+params.get("code"));
+	    log.debug("codeStr??? "+codeStr);
+	    log.debug("isCodeMatching??? "+isCodeMatching);
+	    
+	    return ResponseEntity.ok().body(isCodeMatching);
+	}
 	
-	// 로그인 처리 (아이디 조회 후 비밀번호 일치여부 확인)
+	// 회원가입 처리 (4) 폼 데이터를 받아서 DB에 회원정보 생성(insert)
+	@PostMapping("/register")
+	public ResponseEntity<String> register(@RequestParam HashMap<String, String> params) {
+		log.debug("UserController ===> @PostMapping(\"/register\")");
+		
+		// 암호화된 비밀번호로 password의 값을 치환
+		String encodedPassword = methods.passwordEncoder(params.get("password"));
+		params.replace("password", encodedPassword);
+		
+		// 입력받은 언어를 파라미터 이름으로, 수준을 파라미터 값으로 추가
+		params.put(params.get("language1"), params.get("level1"));
+		params.put(params.get("language2"), params.get("level2"));
+		params.put(params.get("language3"), params.get("level3"));
+		params.put(params.get("language4"), params.get("level4"));
+		
+		command.register(params);
+		
+		return ResponseEntity.ok().body("register success");
+	}
+	
+	// 로그인 처리 (아이디 조회 후 암호화된 비밀번호와 일치여부 확인)
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestParam HashMap<String, String> params, HttpSession session) {
 		log.debug("UserController ===> @PostMapping(\"/login\")");
@@ -98,15 +132,13 @@ public class UserController {
 			log.debug("UserCommandImpl ===> inputPassword ===> " + inputPassword);
 			
 			// 사용자 입력값과 DB비밀번호의 일치여부 확인
-//			boolean passwordMatches = methods.passwordMatches(inputPassword, dbPassword);
+			boolean passwordMatches = methods.passwordMatches(inputPassword, dbPassword);
 			
-			if(inputPassword.equals(dbPassword)) {
-//			if(passwordMatches) {
+			if(passwordMatches) {
 				// 사용자 정보 있고, 비밀번호 일치
 				log.debug("UserCommandImpl ===> 사용자 정보 있고, 비밀번호 일치");
 				session.setAttribute("userInfo", dto);
 				session.setMaxInactiveInterval(1800);
-				
 				return ResponseEntity.ok().body("login success");
 				
 			}else {
