@@ -29,7 +29,7 @@
 					</div>
   					<div class="form-floating mb-3">
 	  					<button id="sendCode" type="button" class="btn btn-outline-secondary" disabled>send Code</button>
-	  					<input size="40" name="code" class="btn btn-light" id="code" style="color:white; display: none;" maxlength="6" placeholder="please input code">
+	  					<input size="38" name="code" class="btn btn-light" id="code" style="color:white; display: none;" maxlength="6" placeholder="please input code">
 	  					<div class="valid-feedback">
 	  						code is matching.
 	  					</div>
