@@ -15,6 +15,7 @@
 		<div id="main">
 			
 			<section id="narrowSection">
+				<div id="title">회원가입</div>
 				<form id="registerForm" action="register" method="post">
 				
 					<div class="form-floating mb-3">
@@ -139,8 +140,9 @@
 				  		<button id="addLanguage" type="button" class="btn btn-outline-secondary">+</button>
 				  	</div>
 				  	
-				  	<div>
+				  	<div class="form-floating">
 				  		<button id="register" type="button" class="btn btn-outline-secondary" disabled>Sign Up</button>
+				  		<button id="goBack" type="button" class="btn btn-info" style="color: white;">Cancel</button>
 				  	</div>
 	
 				</form>
@@ -153,6 +155,12 @@
 
 <script>
 $(document).ready(function() {
+	
+	// ============= 취소 버튼 클릭 시 뒤로가기 ============= //
+	$("#goBack").on("click", function() {
+		history.back();
+	});
+	
 	// ============= 이메일 유효성 검사 ============= //
 	let isEmailValid = false;
 	let isEmailAvailable = false;
@@ -320,12 +328,13 @@ $(document).ready(function() {
 	function checkFormValidity() {
 		var emailValue = document.getElementById("email").value;
 		var codeValue = document.getElementById("code").value;
+		var nicknameValue = document.getElementById("nickname").value;
 		var passwordValue = document.getElementById("password").value;
 		var password2Value = document.getElementById("password2").value;
 		var selectedLanguage = document.getElementsByName("language1")[0].value;
 		var selectedLevel = document.querySelector('input[name="level1"]:checked');
 		
-		if(emailValue && codeValue && passwordValue && password2Value && selectedLanguage && selectedLevel) {
+		if(emailValue && codeValue && nicknameValue && passwordValue && password2Value && selectedLanguage && selectedLevel) {
 			document.getElementById("register").disabled = false;
 		}else {
 			document.getElementById("register").disabled = true;
@@ -343,7 +352,7 @@ $(document).ready(function() {
 			dataType: "text",
 			success: function(data) {
 				if(data == "register success") {
-					alert("회원가입 완료!");
+					alert("Register Success!");
 					location.href = urlConverter("user/login");
 				}
 			}

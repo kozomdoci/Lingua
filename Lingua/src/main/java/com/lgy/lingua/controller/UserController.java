@@ -9,12 +9,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lgy.lingua.collective.MethodCollection;
+import com.lgy.lingua.collective.MethodCollection.sendType;
 import com.lgy.lingua.command.UserCommand;
 import com.lgy.lingua.dto.UserDto;
 
@@ -33,20 +35,6 @@ public class UserController {
 	public String register() {
 		log.debug("UserController ===> @GetMapping(\"/register\")");
 		return "/user/register";
-	}
-	
-	// 로그인 화면 JSP 이동
-	@GetMapping("/login")
-	public String login() {
-		log.debug("UserController ===> @GetMapping(\"/login\")");
-		return "/user/login";
-	}
-	
-	// 회원정보 화면 JSP 이동
-	@GetMapping("/userInfo")
-	public String user() {
-		log.debug("UserController ===> @GetMapping(\"/userInfo\")");
-		return "/user/userInfo";
 	}
 	
 	// 회원가입 처리 (1) 이메일 중복확인
@@ -74,7 +62,7 @@ public class UserController {
 		log.debug("UserController ===> @PostMapping(\"/sendCode\")");
 		log.debug("email??? "+params.get("email"));
 		log.debug("==================================================================");
-		codeStr = methods.sendCodeByEmail(params.get("email"));
+		codeStr = methods.sendCodeByEmail(params.get("email"), sendType.create);
 		log.debug("==================================================================");
 		log.debug("codeStr??? "+codeStr);
 		
@@ -113,6 +101,13 @@ public class UserController {
 		return ResponseEntity.ok().body("register success");
 	}
 	
+	// 로그인 화면 JSP 이동
+	@GetMapping("/login")
+	public String login(HttpSession session) {
+		log.debug("UserController ===> @GetMapping(\"/login\")");
+		return "/user/login";
+	}
+	
 	// 로그인 처리 (아이디 조회 후 암호화된 비밀번호와 일치여부 확인)
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestParam HashMap<String, String> params, HttpSession session) {
@@ -149,27 +144,92 @@ public class UserController {
 			// 사용자 정보 없음
 			return ResponseEntity.ok().body("email not found");
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 	
+	// 회원정보 화면 JSP 이동 및 회원정보 조회 처리
+	@GetMapping("/userInfo")
+	public String userInfo(HttpSession session, Model model) {
+		log.debug("UserController ===> @GetMapping(\"/userInfo\")");
+		UserDto userInfo = methods.getUserInfo(session);
+		
+		if(userInfo == null) {
+			return "redirect:login";
+		}else {
+			model.addAttribute("userInfo", userInfo);
+			return "/user/userInfo";
+		}
+	}
 	
+	// 로그아웃 처리
+	@PostMapping("/logOut")
+	public ResponseEntity<String> logOut(HttpSession session) {
+		log.debug("UserController ===> @PostMapping(\"/logOut\")");
+		session.invalidate();
+		return ResponseEntity.ok().body("logout success");
+	}
 	
+	// 회원정보 수정 화면 JSP 이동
+	@GetMapping("/editUserInfo")
+	public String editUserInfo(HttpSession session, Model model) {
+		log.debug("UserController ===> @GetMapping(\"/editUserInfo\")");
+		UserDto userInfo = methods.getUserInfo(session);
+		if(userInfo == null) {
+			return "redirect:login";
+		}else {
+			model.addAttribute("userInfo", userInfo);
+			return "/user/editUserInfo";
+		}
+	}
 	
-
+	// 회원정보 수정 처리
+	@PostMapping("/editUserInfo")
+	public ResponseEntity<String> editUserInfo(@RequestParam HashMap<String, String> params, HttpSession session) {
+		log.debug("UserController ===> @PostMapping(\"/editUserInfo\")");
+		UserDto userInfo = methods.getUserInfo(session);
+		if(userInfo == null) {
+			return ResponseEntity.ok().body("update fail");
+		}else {
+			userInfo.setNickname(params.get("nickname"));
+			String encodedPassword = methods.passwordEncoder(params.get("password"));
+			params.replace("password", encodedPassword);
+			userInfo.setKorean(params.get("korean"));
+			userInfo.setEnglish(params.get("english"));
+			userInfo.setJapanese(params.get("japanese"));
+			userInfo.setPolish(params.get("polish"));
+			
+			command.update(params);
+			return ResponseEntity.ok().body("update success");
+		}
+	}
 	
+	// 회원정보 삭제 처리
+	@PostMapping("/deleteUser")
+	public ResponseEntity<String> deleteUser(@RequestParam HashMap<String, String> params,  HttpSession session) {
+		log.debug("UserController ===> @PostMapping(\"/deleteUser\")");
+		command.delete(params);
+		session.invalidate();
+		return ResponseEntity.ok().body("delete success");
+	}
 	
-	
-	
+	// 이메일 조회 후 임시 비밀번호 발급
+	@PostMapping("/forgotPassword")
+	public ResponseEntity<String> forgotPassword(@RequestParam HashMap<String, String> params) throws AddressException, MessagingException {
+		log.debug("UserController ===> @PostMapping(\"/forgotPassword\")");
+		UserDto userInfo = command.login(params);
+		if (userInfo != null) {
+			
+			// 이메일 가입확인 되면 임시 비밀번호 이메일로 전송
+			codeStr = methods.sendCodeByEmail(params.get("email"), sendType.forget);
+			
+			// 전송한 임시 비밀번호를 DB에 업데이트
+			String encodedPassword = methods.passwordEncoder(codeStr);
+			params.put("password", encodedPassword);
+			command.updateTemPwd(params);
+			
+			return ResponseEntity.ok().body("email found"); 
+		}else {
+			return ResponseEntity.ok().body("email not found"); 
+		}
+	}
 	
 }

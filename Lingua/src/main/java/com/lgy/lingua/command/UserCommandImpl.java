@@ -17,7 +17,7 @@ public class UserCommandImpl implements UserCommand {
 
 	@Autowired private SqlSession sqlSession;
 	
-	// 사용자 정보조회(활용: 로그인 처리, 이메일 중복확인)
+	// 사용자 정보조회(활용: 로그인 처리, 이메일 중복확인, 비밀번호 찾기 시도 시 이메일 가입 여부 확인)
 	@Override
 	public UserDto login(HashMap<String, String> params) {
 		log.debug("UserCommandImpl ===> login");
@@ -39,7 +39,32 @@ public class UserCommandImpl implements UserCommand {
 		dao.register(params);
 		
 	}
+
+	// 회원정보 수정(활용: 정보수정)
+	@Override
+	public void update(HashMap<String, String> params) {
+		log.debug("UserCommandImpl ===> update");
+		UserDao dao = sqlSession.getMapper(UserDao.class);
+		dao.update(params);
+	}
+
+	// 임시비밀번호로 비밀번호 업데이트(활용: 비밀번호 찾기 요청에 따른 임시비밀번호 발급)
+	@Override
+	public void updateTemPwd(HashMap<String, String> params) {
+		log.debug("UserCommandImpl ===> updateTemPwd");
+		UserDao dao = sqlSession.getMapper(UserDao.class);
+		dao.updateTemPwd(params);
+	}
+
 	
+	// 회원정보 삭제(활용: 회원탈퇴)
+	@Override
+	public void delete(HashMap<String, String> params) {
+		log.debug("UserCommandImpl ===> delete");
+		UserDao dao = sqlSession.getMapper(UserDao.class);
+		dao.delete(params);
+		
+	}
 	
 	
 	

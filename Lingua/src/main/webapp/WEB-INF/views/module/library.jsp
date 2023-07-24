@@ -58,11 +58,16 @@ section {
 	max-width: 500px;
 }
 
-#loginCheck, #registerPage, #register {
+#loginCheck, #registerPage, #forgotPassword, #register, #goBack, #logOut, #modify, #proceedModify, #delete {
 	margin-top: 20px;
 }
 
-
+#title {
+	text-align: center;
+	padding: 10px;
+	background-color: rgba(255, 255, 128, .5);
+	margin-bottom: 20px;
+}
 
 </style>
 

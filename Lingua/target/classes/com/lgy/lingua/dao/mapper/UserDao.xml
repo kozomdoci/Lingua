@@ -12,9 +12,17 @@
 		insert into user values(#{email}, #{nickname}, #{password}, #{imgPath}, 'user', #{korean}, #{english}, #{japanese}, #{polish})
 	</insert>
 	
+  	<update id="update" parameterType="hashmap">
+		UPDATE user SET nickname=#{nickname}, password=#{password}, imgPath=#{imgPath},
+						korean=#{korean}, english=#{english}, japanese=#{japanese}, polish=#{polish} where email = #{email}
+	</update>
+	
+  	<update id="updateTemPwd" parameterType="hashmap">
+		UPDATE user SET password=#{password} where email = #{email}
+	</update>
+	
+  	<delete id="delete" parameterType="hashmap">
+  		DELETE FROM user WHERE email=#{email}
+  	</delete>
+  	
 </mapper>
-
-
-
-
-

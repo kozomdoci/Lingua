@@ -5,7 +5,8 @@
 </head>
 <body>
 	<div id="head-wrapper">
-		<p class="fw-bolder">Lingua</p>
+		<h3>Lingua</h3>
+		<h6>${userInfo.nickname}</h6>
 		
 		<div id="top-memu" align="right">
 			<a class="menu-btn" id="main/home">
@@ -15,10 +16,7 @@
 		    <button type="button" id="board" class="btn btn-outline-dark">Board</button>
 		    </a>
 			<a class="menu-btn" id="user/userInfo">
-		    <button type="button" id="account" class="btn btn-outline-dark">My Info</button>
-		    </a>
-			<a class="menu-btn" id="user/login">
-		    <button type="button" id="login" class="btn btn-outline-dark">Login</button>
+		    <button type="button" id="userInfo" class="btn btn-outline-dark">My Info</button>
 		    </a>
 	    </div>
     </div>
@@ -26,16 +24,22 @@
 </html>
 <script>
 $(document).ready(function() {
-	
+
 	$(".menu-btn").click(function() {
 		location.href = urlConverter($(this).attr("id"));
 	});
 	
 }); // document
 </script>
+
 <style>
 	a {
 		text-decoration: none;
+	}
+	
+	h6 {
+		font-size: 20px;
+		color: purple;
 	}
 </style>
 

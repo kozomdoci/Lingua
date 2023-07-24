@@ -27,9 +27,10 @@
 	  					<label for="floatingPassword">Password</label>
 					</div>
 					
-				  	<div>
+				  	<div class="form-floating">
 					  	<button id="loginCheck" type="button" class="btn btn-primary">Sign In</button>
 				  		<button id="registerPage" type="button" class="btn btn-info" style="color: white;">Sign Up</button>
+				  		<button id="forgotPassword" type="button" class="btn btn-outline-info">forgot password</button>
 				  	</div>
 				  	
 				</form>
@@ -42,13 +43,14 @@
 </html>
 <script>
 
-	// 패스워드 입력란에서 엔터키(keycode 13)를 누르면 로그인 버튼 클릭
+	//============= 패스워드 입력란에서 엔터키(keycode 13)를 누르면 로그인 버튼 클릭 ============= //
 	$("input[name='password']").keydown(function (e) {
 		if ( e.keyCode == 13) {
 			$("#loginCheck").click();
 		}
 	});
 	
+	//============= 로그인 버튼 클릭 시 이메일/비밀번호 유효 여부 확인 후 로그인 처리 ============= //
 	$("#loginCheck").click(function() {
 		var formData = $("#loginForm").serialize();
 		$.ajax({
@@ -59,20 +61,37 @@
 				console.log(data);		// login success OR wrong password OR email not found
 				// 전달되는 데이터(text) 에 따라서 분기처리 추가 작업 해야 함
 				if(data == "login success") {
-					alert("로그인 성공!");
+					alert("Login Success!");
 					location.href = urlConverter("main/home");
 				}else if(data == "wrong password") {
-					alert("비밀번호 불일치");
+					alert("Wrong Password");
 				}else {
-					alert("회원정보 없음");
+					alert("No user Found");
 				}
 			}
 		}); // ajax
 	}); // Sign In Button
 	
+	//============= 회원가입 버튼 클릭 시 회원가입 화면으로 이동 ============= //
 	$("#registerPage").click(function() {
 		location.href = urlConverter("user/register");
 	}); // Sign Up Button
+	
+	
+	//============= 비밀번호 찾기 버튼 클릭 시 이메일 가입 여부 확인 후 임시비밀번호 발송 ============= //
+	$("#forgotPassword").click(function() {
+		var email = prompt("Enter your email address.");
+		
+		$.ajax({
+			type: "post",
+			data: { email: email},
+			url: "forgotPassword",
+			success: function(data) {
+				console.log(data);
+			}
+		});
+	});
+	
 	
 </script>
 

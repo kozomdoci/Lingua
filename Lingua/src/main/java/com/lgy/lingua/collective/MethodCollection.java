@@ -11,9 +11,12 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.lgy.lingua.dto.UserDto;
 
 @Service
 public class MethodCollection {
@@ -49,8 +52,12 @@ public class MethodCollection {
 		return numStr;
 	}
 	
+	public enum sendType {
+		create, forget
+	}
+	
 	// 인증번호(or 임시비밀번호)를 생성하여 이메일로 발송하고 발송한 인증번호를 리턴
-	public String sendCodeByEmail(String email) throws AddressException, MessagingException {
+	public String sendCodeByEmail(String email, sendType type) throws AddressException, MessagingException {
 		
 		// 메일 관련 정보
 		String host = "smtp.naver.com";
@@ -61,9 +68,16 @@ public class MethodCollection {
 		// 인증번호 생성 (6자리, 중복허용)
 		String codeStr = generateCode(6, true);
 		
-		// 메일 내용
-		String subject = "신규 회원가입을 위한 이메일 인증";
-		String body = "이메일 확인을 위한 인증번호 " + codeStr + "를 입력해주세요.";
+		// 메일 내용 분기처리
+		String subject = "";
+		String body = "";
+		if(type.equals(sendType.create) == true) {
+			subject = "신규 회원가입을 위한 이메일 인증";
+			body = "이메일 확인을 위한 인증번호 " + codeStr + "를 입력해주세요.";
+		} else if(type.equals(sendType.forget) == true) {
+			subject = "임시 비밀번호 발급";
+			body = "임시 비밀번호 " + codeStr + "를 입력해주세요. 임시 비밀번호로 로그인 후 반드시 비밀번호 변경해주세요.";
+		}
 		
 		Properties properties = System.getProperties();
 		properties.put("mail.smtp.host", host);
@@ -88,6 +102,15 @@ public class MethodCollection {
 		
 		return codeStr;
 	}
+	
+	// 세션 있으면 유저 정보(DTO) 리턴
+	public UserDto getUserInfo(HttpSession session) {
+		if(session.getAttribute("userInfo") != null) {
+			return (UserDto) session.getAttribute("userInfo");
+		}
+		return null;
+	}
+	
 	
 }
 
