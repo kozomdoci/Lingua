@@ -15,7 +15,7 @@
 		<div id="main">
 		
 			<section id="wideSection">
-				board.jsp 입니다
+				Let our community of native speakers support your language learning.
 			</section>
 			
 		</div>
@@ -23,4 +23,8 @@
 	</div>
 </body>
 </html>
+
+
+
+
 

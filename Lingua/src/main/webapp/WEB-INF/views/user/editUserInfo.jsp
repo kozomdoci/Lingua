@@ -101,7 +101,7 @@
 				<div class="form-floating">
 					<button id="proceedModify" type="button" class="btn btn-primary" disabled>Save Changes</button>
 					<button id="delete" type="button" class="btn btn-info" style="color: white;">Delete Account</button>
-						<button id="forgotPassword" type="button" class="btn btn-outline-info">Cancel</button>
+						<button id="goBack" type="button" class="btn btn-outline-info">Cancel</button>
 				</div>
 				
 				</form>

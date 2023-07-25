@@ -72,10 +72,10 @@ public class MethodCollection {
 		String subject = "";
 		String body = "";
 		if(type.equals(sendType.create) == true) {
-			subject = "신규 회원가입을 위한 이메일 인증";
+			subject = "[L-I-N-G-U-A] 신규 회원가입을 위한 이메일 인증";
 			body = "이메일 확인을 위한 인증번호 " + codeStr + "를 입력해주세요.";
 		} else if(type.equals(sendType.forget) == true) {
-			subject = "임시 비밀번호 발급";
+			subject = "[L-I-N-G-U-A] 임시 비밀번호 발급";
 			body = "임시 비밀번호 " + codeStr + "를 입력해주세요. 임시 비밀번호로 로그인 후 반드시 비밀번호 변경해주세요.";
 		}
 		
@@ -91,7 +91,7 @@ public class MethodCollection {
 				return new PasswordAuthentication(username, password);
 			}
 		});
-		session.setDebug(true);
+		session.setDebug(false);
 		
 		Message mimeMessage = new MimeMessage(session);
 		mimeMessage.setFrom(new InternetAddress(username+"@naver.com"));

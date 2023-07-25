@@ -50,15 +50,15 @@ section {
 }
 
 #wideSection {
-	max-width: auto;
-	background-color: rgba(255, 255, 128, .5);
+	max-width: 1080px;
+/* 	background-color: rgba(255, 255, 128, .5); */
 }
 
 #narrowSection {
 	max-width: 500px;
 }
 
-#loginCheck, #registerPage, #forgotPassword, #register, #goBack, #logOut, #modify, #proceedModify, #delete {
+#loginCheck, #registerPage, #forgotPassword, #register, #goBack, #logOut, #modify, #proceedModify, #delete, #checkSession {
 	margin-top: 20px;
 }
 

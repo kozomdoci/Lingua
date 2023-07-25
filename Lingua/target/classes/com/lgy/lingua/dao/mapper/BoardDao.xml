@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgy.lingua.dao.BoardDao">
+	
+	<select id="list" resultType="com.lgy.lingua.dto.BoardDto">
+		select * from lingua.board order by idBoard desc
+	</select>
+	
+	<insert id="write" parameterType="hashmap">
+		insert into board values(null, #{writer}, #{title}, #{content}, default, default);
+	</insert>
+	
+	<select id="contentView" parameterType="hashmap" resultType="com.lgy.lingua.dto.BoardDto">
+		select * from board where idBoard=#{idBoard}
+	</select>
+	
+	<update id="edit" parameterType="hashmap">
+		update board set title=#{title}, content${content}, modified=default where idBoard=#{idBoard}
+	</update>
+	
+</mapper>
+
+
+
+
+
+

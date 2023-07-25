@@ -62,7 +62,7 @@
 				// 전달되는 데이터(text) 에 따라서 분기처리 추가 작업 해야 함
 				if(data == "login success") {
 					alert("Login Success!");
-					location.href = urlConverter("main/home");
+					location.href = urlConverter("board/home");
 				}else if(data == "wrong password") {
 					alert("Wrong Password");
 				}else {
@@ -87,7 +87,11 @@
 			data: { email: email},
 			url: "forgotPassword",
 			success: function(data) {
-				console.log(data);
+				if(data == "email found") {
+					alert("A temporary password has been sent to the given email address");
+				}else {
+					alert("email address not found");
+				}
 			}
 		});
 	});

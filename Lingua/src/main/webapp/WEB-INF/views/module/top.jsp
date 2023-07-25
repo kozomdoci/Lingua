@@ -9,10 +9,10 @@
 		<h6>${userInfo.nickname}</h6>
 		
 		<div id="top-memu" align="right">
-			<a class="menu-btn" id="main/home">
+			<a class="menu-btn" id="board/home">
 		    <button type="button" id="main" class="btn btn-outline-dark">Home</button>
 		    </a>
-			<a class="menu-btn" id="main/board">
+			<a class="menu-btn" id="board/list">
 		    <button type="button" id="board" class="btn btn-outline-dark">Board</button>
 		    </a>
 			<a class="menu-btn" id="user/userInfo">
@@ -38,7 +38,7 @@ $(document).ready(function() {
 	}
 	
 	h6 {
-		font-size: 20px;
+		font-size: 15px;
 		color: purple;
 	}
 </style>
