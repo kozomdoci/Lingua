@@ -16,7 +16,7 @@
 			
 			<section id="narrowSection">
 				<div id="title">회원가입</div>
-				<form id="registerForm" action="register" method="post">
+				<form id="registerForm">
 				
 					<div class="form-floating mb-3">
 	  					<input name="email" type="email" class="form-control" id="email" placeholder="name@example.com">

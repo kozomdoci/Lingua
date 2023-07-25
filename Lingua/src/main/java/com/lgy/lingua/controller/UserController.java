@@ -146,7 +146,7 @@ public class UserController {
 		}
 	}
 	
-	// 회원정보 화면 JSP 이동 및 회원정보 조회 처리
+	// 회원정보 화면 JSP 이동 및 회원정보 조회 처리(select)
 	@GetMapping("/userInfo")
 	public String userInfo(HttpSession session, Model model) {
 		log.debug("UserController ===> @GetMapping(\"/userInfo\")");
@@ -181,7 +181,7 @@ public class UserController {
 		}
 	}
 	
-	// 회원정보 수정 처리
+	// 회원정보 수정 처리(update)
 	@PostMapping("/editUserInfo")
 	public ResponseEntity<String> editUserInfo(@RequestParam HashMap<String, String> params, HttpSession session) {
 		log.debug("UserController ===> @PostMapping(\"/editUserInfo\")");
@@ -202,7 +202,7 @@ public class UserController {
 		}
 	}
 	
-	// 회원정보 삭제 처리
+	// 회원정보 삭제 처리(delete)
 	@PostMapping("/deleteUser")
 	public ResponseEntity<String> deleteUser(@RequestParam HashMap<String, String> params,  HttpSession session) {
 		log.debug("UserController ===> @PostMapping(\"/deleteUser\")");
@@ -211,7 +211,7 @@ public class UserController {
 		return ResponseEntity.ok().body("delete success");
 	}
 	
-	// 이메일 조회 후 임시 비밀번호 발급
+	// 이메일 조회 후 임시 비밀번호 발급(select, update)
 	@PostMapping("/forgotPassword")
 	public ResponseEntity<String> forgotPassword(@RequestParam HashMap<String, String> params) throws AddressException, MessagingException {
 		log.debug("UserController ===> @PostMapping(\"/forgotPassword\")");

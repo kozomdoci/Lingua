@@ -9,7 +9,7 @@
 	</select>
 	
 	<insert id="register" parameterType="hashmap">
-		insert into user values(#{email}, #{nickname}, #{password}, #{imgPath}, 'user', #{korean}, #{english}, #{japanese}, #{polish})
+		insert into user values(#{email}, #{nickname}, #{password}, #{imgPath}, default, #{korean}, #{english}, #{japanese}, #{polish})
 	</insert>
 	
   	<update id="update" parameterType="hashmap">
