@@ -3,6 +3,7 @@ package com.lgy.lingua.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.lgy.lingua.dto.BoardCriteria;
 import com.lgy.lingua.dto.BoardDto;
 
 // XML 의 id 와 매칭되는 쿼리 호출
@@ -10,6 +11,11 @@ public interface BoardDao {
 	
 	// 게시판 전체 게시글 조회(select)
 	public ArrayList<BoardDto> list();
+	
+	// 게시판 전체 게시글 조회(select) => BoardCriteria 객체를 이용해서 페이징 처리 추가
+	public ArrayList<BoardDto> listWithPaging(BoardCriteria cri);
+	
+
 	
 	// 게시글 쓰기(insert)
 	public void write(HashMap<String, String> params);

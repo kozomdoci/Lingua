@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lgy.lingua.dao.BoardDao;
+import com.lgy.lingua.dto.BoardCriteria;
 import com.lgy.lingua.dto.BoardDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,20 @@ public class BoardCommandImpl implements BoardCommand {
 		
 		return boardList;
 	}
+	
+	// 게시판 전체 게시글 조회 => 페이징 처리 추가(활용: 게시판 조회)
+	@Override
+	public ArrayList<BoardDto> list(BoardCriteria cri) {
+		log.debug("BoardCommandImpl ===> list(cri)");
+		
+		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		ArrayList<BoardDto> boardList = dao.listWithPaging(cri);
+		
+		return boardList;
+	}
+	
+	
+	
 	
 	// 게시글 쓰기(활용: 글쓰기)
 	@Override
@@ -66,6 +81,8 @@ public class BoardCommandImpl implements BoardCommand {
 		BoardDao dao = sqlSession.getMapper(BoardDao.class);
 		dao.delete(params);
 	}
+
+
 	
 	
 	

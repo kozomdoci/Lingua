@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lgy.lingua.collective.MethodCollection;
 import com.lgy.lingua.command.BoardCommand;
+import com.lgy.lingua.dto.BoardCriteria;
 import com.lgy.lingua.dto.BoardDto;
 import com.lgy.lingua.dto.UserDto;
 
@@ -41,10 +42,10 @@ public class BoardController {
 		return "/board/home";
 	}
 	
-	// 게시판 화면 JSP 이동 및 게시판 조회 처리
-	@GetMapping("/list")
+	// 게시판 화면 JSP 이동 및 게시판 목록 조회 처리 => 페이징 처리 추가함으로써 사용하지 않는 매핑이 됨
+	@GetMapping("/listBeforePaging")
 	public String list(Model model, HttpSession session) {
-		log.debug("BoardController ===> @GetMapping(\"/list\")");
+		log.debug("BoardController ===> @GetMapping(\"/listBeforePaging\")");
 		
 		UserDto userInfo = methods.getUserInfo(session);
 		if(userInfo != null) {
@@ -56,6 +57,25 @@ public class BoardController {
 		
 		return "/board/list";
 	}
+	
+	// 게시판 화면 JSP 이동 및 게시판 목록 조회 처리 => 페이징 처리 추가
+	@GetMapping("/list")
+	public String list(Model model, HttpSession session, BoardCriteria cri) {
+		log.debug("BoardController ===> @GetMapping(\"/list\")");
+		
+		UserDto userInfo = methods.getUserInfo(session);
+		if(userInfo != null) {
+			model.addAttribute("userInfo", userInfo);
+		}
+		
+		ArrayList<BoardDto> boardList = command.list(cri);
+		model.addAttribute("boardList", boardList);
+		
+		return "/board/list";
+	}
+	
+	
+	
 
 	// 게시글 쓰기 버튼 클릭하면 세션 확인하기 (세션 있으면 write 로 이동)
 	@GetMapping("/checkSession")

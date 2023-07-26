@@ -8,6 +8,21 @@
 		select * from lingua.board order by idBoard desc
 	</select>
 	
+	
+	<select id="listWithPaging" resultType="com.lgy.lingua.dto.BoardDto">
+		<![CDATA[
+			select C.*
+			  from (select B.* 
+		  			  from (SELECT @ROWNUM:=@ROWNUM+1 rn, A.* FROM lingua.board A, (SELECT @ROWNUM:=0) R order by rn desc) B
+                     where rn <= ( #{pageNum} * #{amount} )
+	               ) C
+             where rn > ( #{pageNum} - 1 ) * #{amount}
+		]]>
+	</select>
+	
+	
+	
+	
 	<insert id="write" parameterType="hashmap">
 		insert into board values(null, #{writer}, #{title}, #{content}, default, default);
 	</insert>
