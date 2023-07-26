@@ -20,6 +20,9 @@ public interface BoardDao {
 	// 게시글 내용 수정(update)
 	public void edit(HashMap<String, String> params);
 	
+	// 게시글 삭제(delete)
+	public void delete(HashMap<String, String> params);
+	
 }
 
 

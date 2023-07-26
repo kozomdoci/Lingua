@@ -57,6 +57,15 @@ public class BoardCommandImpl implements BoardCommand {
 		BoardDao dao = sqlSession.getMapper(BoardDao.class);
 		dao.edit(params);
 	}
+
+	// 게시글 삭제(활용: 글삭제)
+	@Override
+	public void delete(HashMap<String, String> params) {
+		log.debug("BoardCommandImpl ===> delete");
+		
+		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		dao.delete(params);
+	}
 	
 	
 	

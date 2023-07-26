@@ -10,4 +10,5 @@ public interface BoardCommand {
 	void write(HashMap<String, String> params);
 	BoardDto contentView(HashMap<String, String> params);
 	void edit(HashMap<String, String> params);
+	void delete(HashMap<String, String> params);
 }

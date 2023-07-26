@@ -19,25 +19,26 @@
 				
 				<form id="editForm">
 					<input type="hidden" name="idBoard" value="${board.idBoard}">
-					<input type="hidden" name="writer" value="${board.writer}">
 					
 					<div class="mb-3">
-					  <label for="exampleFormControlInput1" class="form-label">Title</label>
-					  <input name="title" value="${board.title}" type="text" class="form-control" id="exampleFormControlInput1" readonly style="color:grey">
+						<label for="exampleFormControlInput1" class="form-label">Title</label>
+						<input name="title" value="${board.title}" type="text" class="form-control" id="titleId">
 					</div>
+					
 					<div class="mb-3">
-					  <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-					  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="10" readonly style="color:grey">${board.content}</textarea>
+						<label for="exampleFormControlTextarea1" class="form-label">Content</label>
+						<textarea name="content" class="form-control" id="contentId" rows="10">${board.content}</textarea>
 					</div>
+					
 					<div class="mb-3">
-					  <label for="exampleFormControlInput1" class="form-label">Written by</label>
-					  <input name="writer" value="${board.writer}" type="email" class="form-control" id="exampleFormControlInput1" readonly style="color:grey">
+						<label for="exampleFormControlInput1" class="form-label">Written by</label>
+						<input name="writer" value="${board.writer}" type="email" class="form-control" id="exampleFormControlInput1" readonly style="color:grey">
 					</div>
 				</form>
 				
 			  	<div class="form-floating" style="display: flex; justify-content: flex-end;">
-				  	<button id="edit" type="button" class="btn btn-warning" style="color: white; display: none">Edit</button>
-				  	<button id="list" type="button" class="btn btn-warning" style="color: white;">Back to List</button>
+				  	<button id="edit" type="button" class="btn btn-warning" style="color: white; margin-right: 5px">Save</button>
+				  	<button id="contentView" type="button" class="btn btn-outline-warning">Back to Content</button>
 			  	</div>
 			  	
 			</section>
@@ -50,31 +51,43 @@
 <script>
 $(document).ready(function() {
 	
-	// ============= 현재 로그인된 사용자의 이메일 주소와 선택한 게시글의 작성자 이메일 주소가 같은 경우에만 Edit 버튼 보여주기 ============= //
-	var emailFromSession = "${userInfo.email}";
-	var emailOfWriter = "${board.writer}";
+	// ============= 뒤로가기 버튼 클릭 시 목록으로 이동 ============= //
+	$("#contentView").on("click", function() {
+		location.href = urlConverter("board/contentView?idBoard="+${board.idBoard});
+	});
 	
-	if(emailFromSession == emailOfWriter) {
-		$("#checkSessionWithWriter").css({"display":"block", "margin-right":"5px"});
+	// ============= input 태그에 모든 값들이 입력되지 않으면 Save 버튼 비활성화 ============= //
+	document.querySelector("#editForm").addEventListener("input", checkFormValidity);
+	function checkFormValidity() {
+		var titleValue = document.getElementById("titleId").value;
+		var contentValue = document.getElementById("contentId").value;
+		
+		if(titleValue && contentValue) {
+			document.getElementById("edit").disabled = false;
+		}else {
+			document.getElementById("edit").disabled = true;
+		}
 	}
 	
-	// ============= 뒤로가기 버튼 클릭 시 목록으로 이동 ============= //
-	$("#list").on("click", function() {
-		location.href = urlConverter("board/list");
-	});
-
-	// ============= 수정 버튼 클릭 시 수정화면으로 이동 ============= //
+	// ============= 게시글 수정 후 Save 버튼 클릭하면 폼 데이터 전송하여 업데이트 처리 ============= //
+	var idBoard = "${board.idBoard}";
+	
 	$("#edit").on("click", function() {
+		var formData = $("#editForm").serialize();
+		
 		$.ajax({
 			type: "post",
+			data: formData,
 			url: "edit",
 			dataType: "text",
 			success: function(data) {
-				console.log(data);
+				if(data == "update success") {
+					alert("Change Saved!");
+					location.href = urlConverter("board/contentView?idBoard="+idBoard);
+				}
 			}
 		});
 	});
-	
 	
 	
 	

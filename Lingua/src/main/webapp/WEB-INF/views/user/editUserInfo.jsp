@@ -227,7 +227,7 @@ $(document).ready(function() {
 	
 	// ============= 회원정보 수정화면에서 탈퇴 버튼 클릭 시 회원정보 탈퇴 처리 후 로그인 화면으로 이동 ============= //
 	$("#delete").on("click", function() {
-		alert("Deleted user account cannot be recovered. Would ou like to proceed?");
+		alert("Deleted user account cannot be recovered. Would you like to proceed?");
 		var formData = $("#modifyInfoForm").serialize();
 		
 		$.ajax({

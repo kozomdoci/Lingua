@@ -32,7 +32,7 @@
 				</form>
 			  	<div class="form-floating" style="text-align: right;">
 				  	<button id="save" type="button" class="btn btn-warning" style="color: white;">Save</button>
-				  	<button id="list" type="button" class="btn btn-warning" style="color: white;">Back to List</button>
+				  	<button id="list" type="button" class="btn btn-outline-warning">Back to List</button>
 			  	</div>
 			</section>
 		</div>

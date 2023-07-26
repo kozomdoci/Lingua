@@ -105,24 +105,33 @@ public class BoardController {
 		return "/board/contentView";
 	}
 
-	// 게시글 수정화면 JSP 이동 및 게시글 조회 처리(select)
+	// 뷰에서 전달받은 idBoard 값으로 해당 게시글 조회(select)해서 model 객체에 추가 후 게시글 수정화면 JSP 이동
 	@GetMapping("/edit")
 	public String edit(@RequestParam HashMap<String, String> params, Model model) {
 		log.debug("BoardController ===> @GetMapping(\"/edit\")");
-		log.debug("idBoard : " + params.get("idBoard"));
 		
 		BoardDto dto = command.contentView(params);
-		log.debug("dto : "+ dto);
-		
 		model.addAttribute("board", dto);
 		
 		return "/board/edit";
 	}
 	
-	
-	
 	// 게시글 내용 수정 처리(update)
+	@PostMapping("/edit")
+	public ResponseEntity<String> edit(@RequestParam HashMap<String, String> params) {
+		log.debug("BoardController ===> @PostMapping(\"/edit\")");
+		command.edit(params);
+		return ResponseEntity.ok().body("update success");
+	}
 	
+	// 게시글 삭제 처리(delete)
+	@GetMapping("/delete")
+	public String delete(@RequestParam HashMap<String, String> params) {
+		log.debug("BoardController ===> @GetMapping(\"/delete\")");
+		command.delete(params);
+		
+		return "redirect:list";
+	}
 	
 	
 	

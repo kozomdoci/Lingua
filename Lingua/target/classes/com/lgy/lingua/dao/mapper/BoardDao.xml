@@ -17,8 +17,12 @@
 	</select>
 	
 	<update id="edit" parameterType="hashmap">
-		update board set title=#{title}, content${content}, modified=default where idBoard=#{idBoard}
+		update board set title=#{title}, content=#{content}, modified=default where idBoard=#{idBoard}
 	</update>
+	
+	<delete id="delete" parameterType="hashmap">
+		delete from board where idBoard=#{idBoard}
+	</delete>
 	
 </mapper>
 
