@@ -41,8 +41,18 @@ public class BoardCommandImpl implements BoardCommand {
 		return boardList;
 	}
 	
-	
-	
+	// 게시판 전체 게시글 개수 조회 => 페이징 시 전체 게시글 수를 실시간으로 적용하기 위해
+	@Override
+	public int getTotalBoard() {
+		log.debug("BoardCommandImpl ===> getTotalBoard");
+		
+		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		int total = dao.getTotalBoard();
+		
+		return total;
+	}
+
+
 	
 	// 게시글 쓰기(활용: 글쓰기)
 	@Override

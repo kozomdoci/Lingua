@@ -15,7 +15,11 @@ public interface BoardDao {
 	// 게시판 전체 게시글 조회(select) => BoardCriteria 객체를 이용해서 페이징 처리 추가
 	public ArrayList<BoardDto> listWithPaging(BoardCriteria cri);
 	
-
+	// 전체 게시글 개수를 조회(select)
+	public int getTotalBoard();
+	
+	
+	
 	
 	// 게시글 쓰기(insert)
 	public void write(HashMap<String, String> params);

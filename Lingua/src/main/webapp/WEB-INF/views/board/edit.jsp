@@ -19,6 +19,19 @@
 				
 				<form id="editForm">
 					<input type="hidden" name="idBoard" value="${board.idBoard}">
+					<input type="hidden" name="pageNum" value="${pageMaker.pageNum}">
+					<input type="hidden" name="amount" value="${pageMaker.amount}">
+					
+					<div class="mb-3">
+					${board.language}<br>
+						<label for="exampleFormControlSelect1" class="form-label">Language</label>
+						<select name="language" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+							<option value="korean">Korean</option>
+							<option value="english">English</option>
+							<option value="japanese">Japanese</option>
+							<option value="polish">Polish</option>
+						</select>
+					</div>
 					
 					<div class="mb-3">
 						<label for="exampleFormControlInput1" class="form-label">Title</label>
@@ -32,7 +45,7 @@
 					
 					<div class="mb-3">
 						<label for="exampleFormControlInput1" class="form-label">Written by</label>
-						<input name="writer" value="${board.writer}" type="email" class="form-control" id="exampleFormControlInput1" readonly style="color:grey">
+						<input name="writer_nickname" value="${board.writer_nickname}" type="text" class="form-control" id="exampleFormControlInput1" readonly style="color:grey">
 					</div>
 				</form>
 				
@@ -51,9 +64,29 @@
 <script>
 $(document).ready(function() {
 	
+	// ============= 선택된 게시글의 language 값을 평가하여 해당하는 곳에 selected 추가 ============= //
+	var language = "${board.language}";
+	
+	var selectElement = document.getElementById("exampleFormControlSelect1");
+	var options = selectElement.options;
+	
+	for(var i=0; i<options.length; i++) {
+		if(options[i].value === language) {
+			options[i].selected = true;
+			break;
+		}
+	}
+	
+	// ============= 수정, 뒤로가기 버튼 클릭 시 전달해주기 위한 파라미터 셋팅(페이징 처리 추가 => 원래 페이지로 이동하기) ============= //
+// 	var idBoard = "${board.idBoard}";
+	var idBoard = "${pageMaker.idBoard}";
+	var pageNum = "${pageMaker.pageNum}";
+	var amount = "${pageMaker.amount}";
+	
+	
 	// ============= 뒤로가기 버튼 클릭 시 목록으로 이동 ============= //
 	$("#contentView").on("click", function() {
-		location.href = urlConverter("board/contentView?idBoard="+${board.idBoard});
+		location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
 	});
 	
 	// ============= input 태그에 모든 값들이 입력되지 않으면 Save 버튼 비활성화 ============= //
@@ -70,8 +103,6 @@ $(document).ready(function() {
 	}
 	
 	// ============= 게시글 수정 후 Save 버튼 클릭하면 폼 데이터 전송하여 업데이트 처리 ============= //
-	var idBoard = "${board.idBoard}";
-	
 	$("#edit").on("click", function() {
 		var formData = $("#editForm").serialize();
 		
@@ -83,7 +114,7 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data == "update success") {
 					alert("Change Saved!");
-					location.href = urlConverter("board/contentView?idBoard="+idBoard);
+					location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
 				}
 			}
 		});

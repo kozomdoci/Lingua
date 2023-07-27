@@ -13,18 +13,22 @@
 		<![CDATA[
 			select C.*
 			  from (select B.* 
-		  			  from (SELECT @ROWNUM:=@ROWNUM+1 rn, A.* FROM lingua.board A, (SELECT @ROWNUM:=0) R order by rn desc) B
+		  			  from (SELECT @ROWNUM:=@ROWNUM+1 rn, A.* FROM lingua.board A, (SELECT @ROWNUM:=0) R order by idBoard desc) B
                      where rn <= ( #{pageNum} * #{amount} )
 	               ) C
              where rn > ( #{pageNum} - 1 ) * #{amount}
 		]]>
 	</select>
 	
-	
-	
+	<select id="getTotalBoard" resultType="int">
+		select count(*) from board
+	</select>
+
+
+
 	
 	<insert id="write" parameterType="hashmap">
-		insert into board values(null, #{writer}, #{title}, #{content}, default, default);
+		insert into board values(null, #{writer}, #{writer_nickname}, #{language}, #{title}, #{content}, default, default);
 	</insert>
 	
 	<select id="contentView" parameterType="hashmap" resultType="com.lgy.lingua.dto.BoardDto">
@@ -32,7 +36,7 @@
 	</select>
 	
 	<update id="edit" parameterType="hashmap">
-		update board set title=#{title}, content=#{content}, modified=default where idBoard=#{idBoard}
+		update board set language=#{language}, title=#{title}, content=#{content}, modified=default where idBoard=#{idBoard}
 	</update>
 	
 	<delete id="delete" parameterType="hashmap">
