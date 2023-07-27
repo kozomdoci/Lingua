@@ -54,8 +54,18 @@
 			  	<div class="form-floating" style="display: flex; justify-content: flex-end;">
 				  	<button id="deleteBoard" type="button" class="btn btn-danger" style="color: white; display: none;">Delete</button>
 				  	<button id="edit" type="button" class="btn btn-warning" style="color: white; display: none">Edit</button>
+				  	<button id="comment" type="button" class="btn btn-outline-info" style="margin-right: 5px">Comment</button>
 				  	<button id="list" type="button" class="btn btn-outline-warning">Back to List</button>
 			  	</div>
+	  			
+	  			<div id="containerComment">
+	  				
+	  			</div>
+	  			
+				<div id="div_comment" class="form-floating mb-3" style="margin-top:20px; display: none">
+  					<input name="content" type="text" class="form-control" id="content" placeholder="content">
+  					<label for="content">Comment</label>
+				</div>
 			  	
 			</section>
 		</div>
@@ -115,6 +125,17 @@ $(document).ready(function() {
 		location.href = urlConverter("board/delete?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
 	});
 	
+	
+	
+	
+	
+	
+	
+	
+	// ============= 댓글 버튼 클릭 시 div_comment 에 댓글 입력 폼 추가 ============= //
+	$("#comment").on("click", function() {
+		$("#div_comment").slideDown(300);
+	});
 	
 	
 }); // ready

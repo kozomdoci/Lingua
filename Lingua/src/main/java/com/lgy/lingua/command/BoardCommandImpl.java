@@ -63,7 +63,7 @@ public class BoardCommandImpl implements BoardCommand {
 		dao.write(params);
 	}
 
-	// 지정한 게시글 보기(활용: 글보기)
+	// 지정한 게시글 보기(활용: 글보기, 글수정화면)
 	@Override
 	public BoardDto contentView(HashMap<String, String> params) {
 		log.debug("BoardCommandImpl ===> contentView");

@@ -5,7 +5,7 @@
 <mapper namespace="com.lgy.lingua.dao.BoardDao">
 	
 	<select id="list" resultType="com.lgy.lingua.dto.BoardDto">
-		select * from lingua.board order by idBoard desc
+		select * from board order by idBoard desc
 	</select>
 	
 	
@@ -13,7 +13,7 @@
 		<![CDATA[
 			select C.*
 			  from (select B.* 
-		  			  from (SELECT @ROWNUM:=@ROWNUM+1 rn, A.* FROM lingua.board A, (SELECT @ROWNUM:=0) R order by idBoard desc) B
+		  			  from (SELECT @ROWNUM:=@ROWNUM+1 rn, A.* FROM board A, (SELECT @ROWNUM:=0) R order by idBoard desc) B
                      where rn <= ( #{pageNum} * #{amount} )
 	               ) C
              where rn > ( #{pageNum} - 1 ) * #{amount}

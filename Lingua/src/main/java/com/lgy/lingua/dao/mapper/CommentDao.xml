@@ -1,0 +1,22 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgy.lingua.dao.CommentDao">
+	
+	<select id="listComment" parameterType="hashmap" resultType="com.lgy.lingua.dto.CommentDto">
+		select * from comment where idBoard=#{idBoard}
+	</select>
+	
+	
+	<insert id="writeComment">
+		
+	</insert>
+
+</mapper>
+
+
+
+
+
+
