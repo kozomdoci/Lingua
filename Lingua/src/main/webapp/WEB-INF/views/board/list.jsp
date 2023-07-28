@@ -179,7 +179,7 @@ $(document).ready(function() {
 			url: "checkSession",
 			dataType: "text",
 			success: function(data) {
-				if(data == "session found"){
+				if(data == "session found") {
 					location.href = urlConverter("board/write");
 				}else {
 					alert("Please login first.");

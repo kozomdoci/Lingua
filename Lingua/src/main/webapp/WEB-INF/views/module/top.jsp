@@ -6,7 +6,7 @@
 <body>
 	<div id="head-wrapper">
 		<h3>Lingua</h3>
-		<h6>${userInfo.nickname}</h6>
+		<h6 id="userNickname">${userInfo.nickname}</h6>
 		
 		<div id="top-memu" align="right">
 			<a class="menu-btn" id="board/home">
@@ -37,7 +37,7 @@ $(document).ready(function() {
 		text-decoration: none;
 	}
 	
-	h6 {
+	#userNickname {
 		font-size: 15px;
 		color: purple;
 	}

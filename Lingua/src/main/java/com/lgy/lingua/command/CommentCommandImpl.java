@@ -29,6 +29,38 @@ public class CommentCommandImpl implements CommentCommand {
 		return commentList;
 	}
 
+	// 댓글 쓰기
+	@Override
+	public void writeComment(HashMap<String, String> params) {
+		log.debug("CommentCommandImpl ===> writeComment");
+		
+		CommentDao dao = sqlSession.getMapper(CommentDao.class);
+		dao.writeComment(params);
+	}
+
+	// 지정한 댓글 정보 조회
+	@Override
+	public CommentDto getCommentDetail(HashMap<String, String> params) {
+		log.debug("CommentCommandImpl ===> getCommentDetail");
+		
+		CommentDao dao = sqlSession.getMapper(CommentDao.class);
+		CommentDto dto = dao.getCommentDetail(params);
+		
+		return dto;
+	}
+
+	// 댓글 수정
+	@Override
+	public void editComment(HashMap<String, String> params) {
+		log.debug("CommentCommandImpl ===> editComment");
+		
+		CommentDao dao = sqlSession.getMapper(CommentDao.class);
+		dao.editComment(params);
+	}
+	
+	
+	
+
 	
 	
 	

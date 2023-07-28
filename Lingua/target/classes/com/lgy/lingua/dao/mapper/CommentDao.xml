@@ -5,13 +5,21 @@
 <mapper namespace="com.lgy.lingua.dao.CommentDao">
 	
 	<select id="listComment" parameterType="hashmap" resultType="com.lgy.lingua.dto.CommentDto">
-		select * from comment where idBoard=#{idBoard}
+		select * from comment where idBoard=#{idBoard} order by idComment desc
 	</select>
 	
-	
-	<insert id="writeComment">
-		
+	<insert id="writeComment" parameterType="hashmap">
+		insert into comment values(null, #{idBoard}, #{writer}, #{writer_nickname}, #{language}, #{content}, default, default)
 	</insert>
+
+	<select id="getCommentDetail" parameterType="hashmap">
+		select * from comment where idComment=#{idComment}
+	</select>
+
+	<update id="editComment" parameterType="hashmap">
+		update comment set content=#{content}, modified=default where idComment=#{idComment}
+	</update>
+
 
 </mapper>
 

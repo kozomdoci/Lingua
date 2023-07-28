@@ -67,22 +67,40 @@ $(document).ready(function() {
 		location.href = urlConverter("board/list");
 	});
 	
-	// ============= 글제목과 글내용 입력 후 저장 버튼 클릭 시 새 글 삽입처리 ============= //
+	
+	// ============= 입력 폼 유효성 검사하는 메소드 ============= //
+	function checkFormValidity() {
+		var selectedLanguageValue = document.getElementsByName("language")[0].value;
+		var titleValue = document.getElementById("exampleFormControlInput1").value;
+		var contentValue = document.getElementById("exampleFormControlTextarea1").value;
+		
+		if(selectedLanguageValue && titleValue && contentValue) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	// ============= 저장 버튼 클릭 시 새 글 삽입처리 ============= //
 	$("#save").on("click", function() {
 		var formData = $("#writeForm").serialize();
 		
-		$.ajax({
-			type: "post",
-			data: formData,
-			url: "write",
-			dataType: "text",
-			success: function(data) {
-				if(data == "insert success") {
-					alert("Successfully Saved!")
-					location.href = urlConverter("board/list");
+		if(checkFormValidity()) {
+			$.ajax({
+				type: "post",
+				data: formData,
+				url: "write",
+				dataType: "text",
+				success: function(data) {
+					if(data == "insert success") {
+						alert("Successfully Saved!")
+						location.href = urlConverter("board/list");
+					}
 				}
-			}
-		});
+			});
+		}else {
+			alert("Please check if all fields are filled.");
+		}
 	});
 	
 	
