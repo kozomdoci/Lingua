@@ -99,6 +99,23 @@
 			  	<div class="form-floating" style="text-align: right;">
 				  	<button id="checkSession" type="button" class="btn btn-warning" style="color: white;">Write</button>
 			  	</div>
+			  	
+			  	<div class="mb-3 d-flex">
+			  		<form method="get" id="searchForm" class="d-flex">
+			  			<select name="type" class="form-select me-2">
+			  				<option value="">--</option>
+			  				<option value="T">Title</option>
+			  				<option value="C">Content</option>
+			  				<option value="N">Nickname</option>
+			  				<option value="E">Email</option>
+			  				<option value="TC">Title OR Content</option>
+			  				<option value="NE">Nickname OR Email </option>
+			  			</select>
+			  			<input type="text" class="form-control me-2" name="keyword" value='<c:out value="${pageMaker.cri.keyword}"></c:out>'>
+			  			<button type="button" class="btn btn-primary" style="color: white;">Search</button>
+			  		</form>
+			  	</div>
+			  	
 			</section>
 		</div>
 		
@@ -194,6 +211,15 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	// ============= 검색 버튼을 클릭하면 폼 입력 태그를 submit ============= //
+	var searchForm =$("#searchForm");
+	
+	$("#searchForm button").on("click", function() {
+		// validation check
+		searchForm.attr("action", "list").submit();
+	});
+	
 	
 }); // ready
 

@@ -61,8 +61,6 @@
 
 <script>
 $(document).ready(function() {
-	var pageNum = "${pageMaker.pageNum}";
-	var amount = "${pageMaker.amount}";
 	
 	// ============= 뒤로가기 버튼 클릭 시 목록으로 이동(이때 페이지 번호 가져가기) ============= //
 	$("#list").on("click", function() {
@@ -71,6 +69,7 @@ $(document).ready(function() {
 	
 	
 	// ============= 입력 폼 유효성 검사하는 메소드 ============= //
+	
 	function checkFormValidity() {
 		var selectedLanguageValue = document.getElementsByName("language")[0].value;
 		var titleValue = document.getElementById("exampleFormControlInput1").value;
@@ -85,6 +84,10 @@ $(document).ready(function() {
 	
 	// ============= 저장 버튼 클릭 시 새 글 삽입처리 ============= //
 	
+	// @GetMapping("/write") => 에서 전달된 모델객체
+	var pageNum = "${pageMaker.pageNum}";
+	var amount = "${pageMaker.amount}";
+	
 	$("#save").on("click", function() {
 		var formData = $("#writeForm").serialize();
 		
@@ -97,7 +100,7 @@ $(document).ready(function() {
 				success: function(data) {
 					if(data == "insert success") {
 						alert("Successfully Saved!")
-						location.href = urlConverter("board/list");
+						location.href = urlConverter("board/list?pageNum="+pageNum+"&amount="+amount);
 					}
 				}
 			});
@@ -105,7 +108,6 @@ $(document).ready(function() {
 			alert("Please check if all fields are filled.");
 		}
 	});
-	
 	
 	
 	
