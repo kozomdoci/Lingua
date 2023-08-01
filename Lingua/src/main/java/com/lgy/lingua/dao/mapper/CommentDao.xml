@@ -20,6 +20,10 @@
 		update comment set content=#{content}, modified=default where idComment=#{idComment}
 	</update>
 
+	<delete id="deleteComment" parameterType="hashmap">
+		delete from comment where idComment=#{idComment}
+	</delete>
+
 
 </mapper>
 

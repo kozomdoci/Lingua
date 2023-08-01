@@ -89,12 +89,18 @@ public class BoardController {
 
 	// 게시글 쓰기 버튼 클릭하면 세션 확인하기 (세션 있으면 write 로 이동)
 	@GetMapping("/checkSession")
-	public ResponseEntity<String> checkSession(Model model, HttpSession session) {
+	public ResponseEntity<String> checkSession(@RequestParam HashMap<String, String> params, Model model, HttpSession session) {
 		log.debug("BoardController ===> @GetMapping(\"/checkSession\")");
+		log.debug("pageNum : " + params.get("pageNum"));
+		log.debug("amount : " + params.get("amount"));
+		model.addAttribute("pageNum", params.get("pageNum"));
+		model.addAttribute("amount", params.get("amount"));
+		
 		UserDto userInfo = methods.getUserInfo(session);
 		
 		if(userInfo != null) {
 			model.addAttribute("userInfo", userInfo);
+			
 			return ResponseEntity.ok().body("session found");
 		}
 		return ResponseEntity.ok().body("session not found");
@@ -102,18 +108,27 @@ public class BoardController {
 	
 	// 게시글 쓰기 화면 JSP 이동
 	@GetMapping("/write")
-	public String write(Model model, HttpSession session) {
+	public String write(@RequestParam HashMap<String, String> params, Model model, HttpSession session) {
 		log.debug("BoardController ===> @GetMapping(\"/write\")");
+		log.debug("pageNum : " + params.get("pageNum"));
+		log.debug("amount : " + params.get("amount"));
+		
 		UserDto userInfo = methods.getUserInfo(session);
 		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("pageMaker", params);
 		
 		return "/board/write";
 	}
 	
 	// 게시글 쓰기 폼 데이터를 받아서 DB에 새글 생성(insert)
 	@PostMapping("/write")
-	public ResponseEntity<String> write(@RequestParam HashMap<String, String> params) {
+	public ResponseEntity<String> write(@RequestParam HashMap<String, String> params, Model model) {
 		log.debug("BoardController ===> @PostMapping(\"/write\")");
+		log.debug("pageNum : " + params.get("pageNum"));
+		log.debug("amount : " + params.get("amount"));
+		
+		model.addAttribute("pageMaker", params);
+		
 		command.write(params);
 		
 		return ResponseEntity.ok().body("insert success");

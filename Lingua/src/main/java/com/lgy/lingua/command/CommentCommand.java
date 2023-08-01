@@ -11,5 +11,6 @@ public interface CommentCommand {
 	void writeComment(HashMap<String, String> params);
 	CommentDto getCommentDetail(HashMap<String, String> params);
 	void editComment(HashMap<String, String> params);
+	void deleteComment(HashMap<String, String> params);
 	
 }

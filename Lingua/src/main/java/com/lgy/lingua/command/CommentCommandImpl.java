@@ -57,6 +57,15 @@ public class CommentCommandImpl implements CommentCommand {
 		CommentDao dao = sqlSession.getMapper(CommentDao.class);
 		dao.editComment(params);
 	}
+
+	// 댓글 삭제
+	@Override
+	public void deleteComment(HashMap<String, String> params) {
+		log.debug("CommentCommandImpl ===> deleteComment");
+		
+		CommentDao dao = sqlSession.getMapper(CommentDao.class);
+		dao.deleteComment(params);
+	}
 	
 	
 	

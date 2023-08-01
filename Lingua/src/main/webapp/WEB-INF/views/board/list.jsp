@@ -174,13 +174,19 @@ $(document).ready(function() {
 	
 	// ============= 글쓰기 버튼 클릭 시 로그인 세션 확인 (세션 있으면 write 로 이동) ============= //
 	$("#checkSession").on("click", function() {
+		var formData = $("#actionForm").serialize();
+		
 		$.ajax({
 			type: "get",
+			data: formData,
 			url: "checkSession",
 			dataType: "text",
 			success: function(data) {
 				if(data == "session found") {
-					location.href = urlConverter("board/write");
+					
+					var pageNum = $("#actionForm input[name='pageNum']").val();
+					var amount = $("#actionForm input[name='amount']").val();
+					location.href = urlConverter("board/write?pageNum="+pageNum+"&amount="+amount);
 				}else {
 					alert("Please login first.");
 					location.href = urlConverter("user/login");

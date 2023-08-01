@@ -261,6 +261,9 @@ $(document).ready(function() {
 		});
 	}
 	
+	
+	// ============= 댓글 수정 ============= //
+	
 	// editComment 와 deleteComment 버튼은 동적으로 추가되는 요소이기 때문에 이벤트 위임(Event Delegation) 을 사용하여 접근할 수 있음
 	// 이벤트 위임(Event Delegation) : 정적인 부모 요소에 이벤트 리스너를 추가하고, 특정 자식 요소들의 이벤트를 캡처하는 방법
 	$("#containerComment").on("click", ".editComment", function() {
@@ -269,6 +272,19 @@ $(document).ready(function() {
 		// Fine the textarea relative to the clicked "editComment" button and set the "readonly" attribute to false
 		var textarea = $(this).closest(".contentOneLine").find(".contentComment");
 		textarea.prop("readonly", false);
+		
+		// Edit 버튼의 클래스를 saveChanges 로 변경하고 버튼 이름을 Save Changes 로 변경
+		$(this).removeClass("editComment").addClass("saveChanges");
+		$(this).html("Save Changes");
+		
+	});
+	
+	
+	// 수정된 댓글 입력 후 Save Changes 버튼 클릭하면 수정된 내용을 데이터베이스로 전달하여 수정처리
+	$("#containerComment").on("click", ".saveChanges", function() {
+		console.log("saveChanges is clicked");
+		
+		var editCommentButton = $(this);
 		
 		// Find the editCommentForm relative to the clicked "editComment" button and get the form data from the found editCommentForm
 		var editCommentForm = $(this).closest(".contentOneLine").find("#editCommentForm");
@@ -280,20 +296,39 @@ $(document).ready(function() {
 			url: "comment/editComment",
 			dataType: "text",
 			success: function(data) {
-				console.log(data);
+				
+				// 댓글 수정이 성공적으로 완료되면 textarea 를 다시 읽기전용으로 변경
+				if(data == "comment update success") {
+					var textarea = editCommentButton.closest(".contentOneLine").find(".contentComment");
+					textarea.prop("readonly", true);
+				}
 			}
 		});
-		
 	});
 	
 	
-	
+	// ============= 댓글 삭제 ============= //
 	$("#containerComment").on("click", ".deleteComment", function() {
 		console.log("deleteComment is clicked");
+		
+		var editCommentForm = $(this).closest(".contentOneLine").find("#editCommentForm");
+		var formData = editCommentForm.serialize();
+		
+		$.ajax({
+			type: "post",
+			data: formData,
+			url: "comment/deleteComment",
+			dataType: "text",
+			success: function(data) {
+				if(data == "comment delete success") {
+					alert("Comment Deleted Successfully!")
+					location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
+				}else {
+					alert("failed to delete your comment");
+				}
+			}
+		});
 	});
-	
-	
-	
 	
 	
 

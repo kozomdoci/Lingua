@@ -20,6 +20,7 @@ public interface CommentDao {
 	// 댓글 수정(update)
 	public void editComment(HashMap<String, String> params);
 	
-	
+	// 댓글 삭제(delete)
+	public void deleteComment(HashMap<String, String> params);
 	
 }

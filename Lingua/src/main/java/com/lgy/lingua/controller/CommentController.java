@@ -23,7 +23,7 @@ public class CommentController {
 	
 	@Autowired private CommentCommand command;
 	
-	// 지정한 게시글에 연결된 댓글 조회
+	// 지정한 게시글에 연결된 모든 댓글 조회
 	@GetMapping("/listComment")
 	public ResponseEntity<ArrayList<CommentDto>> listComment(@RequestParam HashMap<String, String> params) {
 		log.debug("CommentController ===> @GetMapping(\"/listComment\")");
@@ -34,7 +34,7 @@ public class CommentController {
 		return ResponseEntity.ok().body(commentList);
 	}
 	
-	// 지정한 게시글(idBoard) 등과 함께 파라미터를 가져와서 댓글 생성
+	// 지정한 게시글(idBoard) 등과 함께 파라미터를 가져와서 신규 댓글 생성
 	@PostMapping("/writeComment")
 	public ResponseEntity<String> writeComment(@RequestParam HashMap<String, String> params) {
 		log.debug("CommentController ===> @PostMapping(\"writeComment\")");
@@ -55,6 +55,7 @@ public class CommentController {
 		return ResponseEntity.ok().body("comment insert success");
 	}
 	
+	// 지정한 댓글 수정 처리
 	@PostMapping("/editComment")
 	public ResponseEntity<String> editComment(@RequestParam HashMap<String, String> params) {
 		log.debug("CommentController ===> @PostMapping(\"editComment\")");
@@ -65,6 +66,17 @@ public class CommentController {
 		
 		return ResponseEntity.ok().body("comment update success");
 	}
+	
+	// 지정한 댓글 삭제 처리
+	@PostMapping("/deleteComment")
+	public ResponseEntity<String> deleteComment(@RequestParam HashMap<String, String> params) {
+		log.debug("CommentController ===> @PostMapping(\"editComment\")");
+		log.debug("idComment : " + params.get("idComment"));
+		
+		command.deleteComment(params);
+		return ResponseEntity.ok().body("comment delete success");
+	}
+	
 }
 
 

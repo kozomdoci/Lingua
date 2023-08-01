@@ -61,10 +61,12 @@
 
 <script>
 $(document).ready(function() {
+	var pageNum = "${pageMaker.pageNum}";
+	var amount = "${pageMaker.amount}";
 	
-	// ============= 뒤로가기 버튼 클릭 시 목록으로 이동 ============= //
+	// ============= 뒤로가기 버튼 클릭 시 목록으로 이동(이때 페이지 번호 가져가기) ============= //
 	$("#list").on("click", function() {
-		location.href = urlConverter("board/list");
+		location.href = urlConverter("board/list?pageNum="+pageNum+"&amount="+amount);
 	});
 	
 	
@@ -82,6 +84,7 @@ $(document).ready(function() {
 	
 	
 	// ============= 저장 버튼 클릭 시 새 글 삽입처리 ============= //
+	
 	$("#save").on("click", function() {
 		var formData = $("#writeForm").serialize();
 		
