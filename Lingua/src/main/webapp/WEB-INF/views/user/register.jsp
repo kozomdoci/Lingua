@@ -15,7 +15,7 @@
 		<div id="main">
 			
 			<section id="narrowSection">
-				<div id="title">회원가입</div>
+				<div id="title">register</div>
 				<form id="registerForm">
 				
 					<div class="form-floating mb-3">

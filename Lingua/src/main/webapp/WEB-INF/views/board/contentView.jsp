@@ -15,12 +15,12 @@
 		
 		<div id="main">
 			<section id="wideSection">
-				<div id="title">게시글 보기</div>
+				<div id="title">contentView</div>
 				<input type="hidden" name="idBoard" value="${board.idBoard}">
 				<input type="hidden" name="writer" value="${board.writer}">
 				
 				<div class="mb-3">
-				${board.language}<br>
+
 					<label for="exampleFormControlSelect1" class="form-label">Language</label>
 					<select name="language" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
 						<option value="korean">Korean</option>
@@ -128,8 +128,9 @@ $(document).ready(function() {
 	
 	// ============= 삭제 버튼 클릭 시 idBoard 값을 가지고 컨트롤러로 이동 ============= //
 	$("#deleteBoard").on("click", function() {
-		alert("Deleted post cannot be recovered. Would you like to proceed?");
-		location.href = urlConverter("board/delete?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
+		if(confirm("Deleted post cannot be recovered. Would you like to proceed?") == true) {
+			location.href = urlConverter("board/delete?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
+		}
 	});
 	
 	
@@ -228,7 +229,7 @@ $(document).ready(function() {
 					CommentContent += "<form id='editCommentForm'>";
 					CommentContent += "<input type='hidden' name='idComment' value='" + idComment + "'>";
 					CommentContent += "<textarea name='content' type='text' class='form-control contentComment' rows='10' placeholder='content' readonly>"+content+"</textarea>";
-					CommentContent += "<label for='contentComment'>Content</label>";
+					CommentContent += "<label for='contentComment'></label>";
 					CommentContent += "</form></div>";
 					
 					CommentContent += "<div class='form-floating mb-3 half-size-20'>";
@@ -296,11 +297,10 @@ $(document).ready(function() {
 			url: "comment/editComment",
 			dataType: "text",
 			success: function(data) {
-				
 				// 댓글 수정이 성공적으로 완료되면 textarea 를 다시 읽기전용으로 변경
 				if(data == "comment update success") {
-					var textarea = editCommentButton.closest(".contentOneLine").find(".contentComment");
-					textarea.prop("readonly", true);
+					alert("Change saved for your comment!");
+					location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
 				}
 			}
 		});
@@ -311,28 +311,30 @@ $(document).ready(function() {
 	$("#containerComment").on("click", ".deleteComment", function() {
 		console.log("deleteComment is clicked");
 		
-		var editCommentForm = $(this).closest(".contentOneLine").find("#editCommentForm");
-		var formData = editCommentForm.serialize();
-		
-		$.ajax({
-			type: "post",
-			data: formData,
-			url: "comment/deleteComment",
-			dataType: "text",
-			success: function(data) {
-				if(data == "comment delete success") {
-					alert("Comment Deleted Successfully!")
-					location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
-				}else {
-					alert("failed to delete your comment");
+		if(confirm("Deleted comment cannot be recovered. Would you like to proceed?") == true) {
+			
+			var editCommentForm = $(this).closest(".contentOneLine").find("#editCommentForm");
+			var formData = editCommentForm.serialize();
+			
+			$.ajax({
+				type: "post",
+				data: formData,
+				url: "comment/deleteComment",
+				dataType: "text",
+				success: function(data) {
+					if(data == "comment delete success") {
+						alert("Comment Deleted Successfully!")
+						location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
+					}else {
+						alert("failed to delete your comment");
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 	
 	
 
-	
 	
 }); // ready
 

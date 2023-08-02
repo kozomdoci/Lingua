@@ -77,7 +77,8 @@ section {
 #title {
 	text-align: center;
 	padding: 10px;
-	background-color: rgba(255, 255, 128, .5);
+/* 	background-color: rgba(255, 255, 128, .5); */
+	background-color: #f2f2f2;
 	margin-bottom: 20px;
 }
 

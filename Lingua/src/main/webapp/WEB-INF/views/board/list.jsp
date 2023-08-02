@@ -263,7 +263,7 @@ $(document).ready(function() {
 		text-align: center;
 	}
 	th {
-		background-color: #f0f0f0;
+		background-color: #f2f2f2;
 	}
 	.div_page ul {
 		display: flex;

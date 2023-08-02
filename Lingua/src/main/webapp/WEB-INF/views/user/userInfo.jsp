@@ -15,7 +15,7 @@
 		<div id="main">
 		
 			<section id="narrowSection">
-				<div id="title">회원정보 조회</div>
+				<div id="title">userInfo</div>
 			
 				<div class="form-floating mb-3">
   					<div class="form-control" id="email">${userInfo.email}</div>

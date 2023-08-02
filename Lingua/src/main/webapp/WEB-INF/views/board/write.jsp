@@ -15,7 +15,7 @@
 		
 		<div id="main">
 			<section id="wideSection">
-				<div id="title">게시글 작성</div>
+				<div id="title">write</div>
 				<form id="writeForm">
 					<input type="hidden" name="writer" value="${userInfo.email}">
 					
