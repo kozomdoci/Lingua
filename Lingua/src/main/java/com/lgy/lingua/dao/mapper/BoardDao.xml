@@ -23,6 +23,9 @@
 		<if test='type == "NE"'>
 			AND title like concat('%', #{keyword}, '%') OR content like concat('%', #{keyword}, '%')
 		</if>
+		<if test='type == "L"'>
+			AND language like concat('%', #{keyword}, '%')
+		</if>
 	</sql>
 	
 	<select id="list" resultType="com.lgy.lingua.dto.BoardDto">

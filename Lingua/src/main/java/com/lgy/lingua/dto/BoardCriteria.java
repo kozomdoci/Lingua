@@ -29,7 +29,6 @@ public class BoardCriteria {
 		// type 이 없으면 빈 스트링 객체(기본 목록 조회), 있으면 분리
 		return type == null ? new String[] {} : type.split("");
 	}
-
 	
 }
 

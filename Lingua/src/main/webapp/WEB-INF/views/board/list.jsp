@@ -16,6 +16,7 @@
 		<div id="main">
 		
 			<section id="wideSection">
+			
 				<table>
 					<colgroup>
 						<col width="5%">
@@ -112,10 +113,12 @@
 			  				<option value="N" <c:out value="${ pageMaker.cri.type == 'N' ? 'selected' : '' }"/>>Nickname</option>
 			  				<option value="E" <c:out value="${ pageMaker.cri.type == 'E' ? 'selected' : '' }"/>>Email</option>
 			  				<option value="TC" <c:out value="${ pageMaker.cri.type == 'TC' ? 'selected' : '' }"/>>Title OR Content</option>
-			  				<option value="NE" <c:out value="${ pageMaker.cri.type == 'NE' ? 'selected' : '' }"/>>Nickname OR Email </option>
+			  				<option value="NE" <c:out value="${ pageMaker.cri.type == 'NE' ? 'selected' : '' }"/>>Nickname OR Email</option>
+			  				<option value="L" <c:out value="${ pageMaker.cri.type == 'L' ? 'selected' : '' }"/>>Language</option>
 			  			</select>
 			  			<input type="text" class="form-control me-2" name="keyword" value='<c:out value="${pageMaker.cri.keyword}"></c:out>'>
-			  			<button type="button" class="btn btn-primary" style="color: white;">Search</button>
+			  			<button id="searchBtn" type="button" class="btn btn-success" style="color: white;">Search</button>
+			  			<button id="resetBtn" type="button" class="btn btn-outline-success" style="margin-left: 5px;">Reset</button>
 			  		</form>
 			  	</div>
 			  	
@@ -218,7 +221,7 @@ $(document).ready(function() {
 	// ============= 검색 버튼을 클릭하면 폼 입력 태그를 submit ============= //
 	var searchForm =$("#searchForm");
 	
-	$("#searchForm button").on("click", function() {
+	$("#searchForm #searchBtn").on("click", function() {
 		
 		// validation check
 		if(!searchForm.find("option:selected").val()) {
@@ -232,6 +235,17 @@ $(document).ready(function() {
 		
 		searchForm.attr("action", "list").submit();
 	});
+	
+	// reset 버튼 클릭하면 리셋 함수 호출하여 폼 리셋
+	$("#resetBtn").on("click", function() {
+		resetForm();
+	});
+	
+	// 자바스크립트 함수로 폼 리셋
+	function resetForm() {
+		searchForm[0].reset();
+	}
+	
 	
 	
 }); // ready
