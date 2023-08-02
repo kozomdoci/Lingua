@@ -6,19 +6,20 @@
 <body>
 	<div id="head-wrapper">
 		<h3>Lingua</h3>
-		<h6 id="userNickname">${userInfo.nickname}</h6>
 		
 		<div id="top-memu" align="right">
 			<a class="menu-btn" id="board/home">
-		    <button type="button" id="main" class="btn btn-outline-dark">Home</button>
+		    <button type="button" id="main" class="btn btn-outline-light">Home</button>
 		    </a>
 			<a class="menu-btn" id="board/list">
-		    <button type="button" id="board" class="btn btn-outline-dark">Board</button>
+		    <button type="button" id="board" class="btn btn-outline-light">Board</button>
 		    </a>
 			<a class="menu-btn" id="user/userInfo">
-		    <button type="button" id="userInfo" class="btn btn-outline-dark">My Info</button>
+		    <button type="button" id="userInfo" class="btn btn-outline-light">My Info</button>
 		    </a>
 	    </div>
+	    
+		<h6 id="userNickname">${userInfo.nickname}</h6>
     </div>
 </body>
 </html>
@@ -39,7 +40,7 @@ $(document).ready(function() {
 	
 	#userNickname {
 		font-size: 15px;
-		color: purple;
+		color: white;
 	}
 </style>
 

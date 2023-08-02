@@ -31,12 +31,24 @@
 		"left main right"
 		"bottom bottom bottom";
 	grid-template-columns: auto 3fr auto;
-	grid-template-rows: auto 3fr auto;
+	grid-template-rows: 130px 3fr auto;
 	grid-gap: 10px;
 	min-height: 100vh;
 }
 	
-#top    {	grid-area: top;		}
+#top    {	grid-area: top;
+			
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			
+			height: 130px;
+			padding: 1rem;
+			color: white;
+			background: teal;
+			font-weight: bold;
+		}
 #left   {	grid-area: left;	}
 #right  {	grid-area: right;	}
 #bottom {	grid-area: bottom;	}
