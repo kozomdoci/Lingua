@@ -9,14 +9,18 @@ import com.lgy.lingua.dto.BoardDto;
 // XML 의 id 와 매칭되는 쿼리 호출
 public interface BoardDao {
 	
+	
 	// 게시판 전체 게시글 조회(select)
 	public ArrayList<BoardDto> list();
 	
 	// 게시판 전체 게시글 조회(select) => BoardCriteria 객체를 이용해서 페이징 처리 추가
 	public ArrayList<BoardDto> listWithPaging(BoardCriteria cri);
 	
-	// 전체 게시글 개수를 조회(select)
-	public int getTotalBoard();
+	
+	
+	
+	// 전체 게시글 개수를 조회(select) => BoardCriteria 객체를 이용해서 페이징 처리 추가(검색조건에 따라 게시글 개수를 달리 조회하도록 설정)
+	public int getTotalBoard(BoardCriteria cri);
 	
 	
 	

@@ -5,9 +5,25 @@
 <mapper namespace="com.lgy.lingua.dao.BoardDao">
 	
 	<sql id="criteria">
-
+		<if test='type == "T"'>
+			AND title like concat('%', #{keyword}, '%')
+		</if>
+		<if test='type == "C"'>
+			AND content like concat('%', #{keyword}, '%')
+		</if>
+		<if test='type == "N"'>
+			AND writer_nickname like concat('%', #{keyword}, '%')
+		</if>
+		<if test='type == "E"'>
+			AND writer like concat('%', #{keyword}, '%')
+		</if>
+		<if test='type == "TC"'>
+			AND title like concat('%', #{keyword}, '%') OR content like concat('%', #{keyword}, '%')
+		</if>
+		<if test='type == "NE"'>
+			AND title like concat('%', #{keyword}, '%') OR content like concat('%', #{keyword}, '%')
+		</if>
 	</sql>
-	
 	
 	<select id="list" resultType="com.lgy.lingua.dto.BoardDto">
 		select * from board order by idBoard desc
@@ -17,7 +33,8 @@
 		<![CDATA[
 			select C.*
 			  from (select B.* 
-		  			  from (SELECT @ROWNUM:=@ROWNUM+1 rn, A.* FROM board A, (SELECT @ROWNUM:=0) R  
+		  			  from (SELECT @ROWNUM:=@ROWNUM+1 rn, A.* FROM board A, (SELECT @ROWNUM:=0) R 
+		  			  WHERE 1=1
 		]]>
 					
 						<include refid="criteria"></include>
@@ -30,6 +47,7 @@
 		]]>
 	</select>
 	
+	<!-- 검색조건 추가하기 전의 페이징 쿼리(사용안함) -->
 	<select id="listWithPaging2" resultType="com.lgy.lingua.dto.BoardDto">
 		<![CDATA[
 			select C.*
@@ -45,6 +63,14 @@
 	
 	
 	<select id="getTotalBoard" resultType="int">
+		select count(*) from board
+		WHERE 1=1
+		<include refid="criteria"></include>
+	</select>
+	
+	
+	<!-- 검색조건 추가하기 전의 게시글 수 조회하는 쿼리(사용안함) -->
+	<select id="getTotalBoard2" resultType="int">
 		select count(*) from board
 	</select>
 

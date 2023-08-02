@@ -75,7 +75,8 @@ public class BoardController {
 		model.addAttribute("boardList", boardList);
 
 		// 현재 전체 게시글 개수 조회하여 변수에 저장
-		int total = command.getTotalBoard();
+//		int total = command.getTotalBoard();
+		int total = command.getTotalBoard(cri);
 		
 		// 총 게시글 수(실시간으로 조회한 결과값)와 cri 객체(현재 머무르는 페이지 번호와 한 페이지당 출력되는 게시글 개수를 가짐)를 생성자 매개변수로 전달하여 BoardPage 객체 생성
 		BoardPage boardPageDto = new BoardPage(total, cri);

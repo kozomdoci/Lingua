@@ -94,22 +94,25 @@
 				<form method="get" id="actionForm">
 					<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 					<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+					<input type="hidden" name="type" value="${pageMaker.cri.type}">
+					<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
 				</form>
 				
 			  	<div class="form-floating" style="text-align: right;">
 				  	<button id="checkSession" type="button" class="btn btn-warning" style="color: white;">Write</button>
 			  	</div>
 			  	
+			  	
 			  	<div class="mb-3 d-flex">
 			  		<form method="get" id="searchForm" class="d-flex">
 			  			<select name="type" class="form-select me-2">
-			  				<option value="">--</option>
-			  				<option value="T">Title</option>
-			  				<option value="C">Content</option>
-			  				<option value="N">Nickname</option>
-			  				<option value="E">Email</option>
-			  				<option value="TC">Title OR Content</option>
-			  				<option value="NE">Nickname OR Email </option>
+			  				<option value="" <c:out value="${ pageMaker.cri.type == null ? 'selected' : '' }"/>>--</option>
+			  				<option value="T" <c:out value="${ pageMaker.cri.type == 'T' ? 'selected' : '' }"/>>Title</option>
+			  				<option value="C" <c:out value="${ pageMaker.cri.type == 'C' ? 'selected' : '' }"/>>Content</option>
+			  				<option value="N" <c:out value="${ pageMaker.cri.type == 'N' ? 'selected' : '' }"/>>Nickname</option>
+			  				<option value="E" <c:out value="${ pageMaker.cri.type == 'E' ? 'selected' : '' }"/>>Email</option>
+			  				<option value="TC" <c:out value="${ pageMaker.cri.type == 'TC' ? 'selected' : '' }"/>>Title OR Content</option>
+			  				<option value="NE" <c:out value="${ pageMaker.cri.type == 'NE' ? 'selected' : '' }"/>>Nickname OR Email </option>
 			  			</select>
 			  			<input type="text" class="form-control me-2" name="keyword" value='<c:out value="${pageMaker.cri.keyword}"></c:out>'>
 			  			<button type="button" class="btn btn-primary" style="color: white;">Search</button>
@@ -216,7 +219,17 @@ $(document).ready(function() {
 	var searchForm =$("#searchForm");
 	
 	$("#searchForm button").on("click", function() {
+		
 		// validation check
+		if(!searchForm.find("option:selected").val()) {
+			alert("Please choose search condition.");
+			return false;
+		}
+		if(!searchForm.find("input[name='keyword']").val()) {
+			alert("Please input keyword.");
+			return false;
+		}
+		
 		searchForm.attr("action", "list").submit();
 	});
 	

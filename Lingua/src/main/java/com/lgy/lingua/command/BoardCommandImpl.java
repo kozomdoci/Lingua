@@ -42,17 +42,35 @@ public class BoardCommandImpl implements BoardCommand {
 	}
 	
 	// 게시판 전체 게시글 개수 조회 => 페이징 시 전체 게시글 수를 실시간으로 적용하기 위해
+//	@Override
+//	public int getTotalBoard() {
+//		log.debug("BoardCommandImpl ===> getTotalBoard");
+//		
+//		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+//		int total = dao.getTotalBoard();
+//		
+//		return total;
+//	}
+
+
+	// 게시판 전체 게시글 개수 조회 => 페이징 시 전체 게시글 수를 실시간으로 적용하기 위해 => 검색 조건에 맞는 게시글 전체 수를 조회하기 위해
 	@Override
-	public int getTotalBoard() {
-		log.debug("BoardCommandImpl ===> getTotalBoard");
+	public int getTotalBoard(BoardCriteria cri) {
+		log.debug("BoardCommandImpl ===> getTotalBoard(cri)");
 		
 		BoardDao dao = sqlSession.getMapper(BoardDao.class);
-		int total = dao.getTotalBoard();
+		int total = dao.getTotalBoard(cri);
 		
 		return total;
 	}
-
-
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 게시글 쓰기(활용: 글쓰기)
 	@Override
@@ -91,6 +109,7 @@ public class BoardCommandImpl implements BoardCommand {
 		BoardDao dao = sqlSession.getMapper(BoardDao.class);
 		dao.delete(params);
 	}
+
 
 
 	
