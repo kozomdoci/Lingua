@@ -6,94 +6,76 @@
 	
 	<sql id="criteria">
 		<if test='type == "T"'>
-			AND title like concat('%', #{keyword}, '%')
+			(title like '%' || #{keyword} || '%') AND
 		</if>
 		<if test='type == "C"'>
-			AND content like concat('%', #{keyword}, '%')
+			(content like '%' || #{keyword} || '%') AND
 		</if>
 		<if test='type == "N"'>
-			AND writer_nickname like concat('%', #{keyword}, '%')
+			(writer_nickname like '%' || #{keyword} || '%') AND
 		</if>
 		<if test='type == "E"'>
-			AND writer like concat('%', #{keyword}, '%')
+			(writer like '%' || #{keyword} || '%') AND
 		</if>
 		<if test='type == "TC"'>
-			AND title like concat('%', #{keyword}, '%') OR content like concat('%', #{keyword}, '%')
+			(title like '%' || #{keyword} || '%') OR (content like '%' || #{keyword} || '%') AND
 		</if>
 		<if test='type == "NE"'>
-			AND title like concat('%', #{keyword}, '%') OR content like concat('%', #{keyword}, '%')
+			(writer_nickname like '%' || #{keyword} || '%') OR (writer like '%' || #{keyword} || '%') AND
 		</if>
 		<if test='type == "L"'>
-			AND language like concat('%', #{keyword}, '%')
+			(language like '%' || #{keyword} || '%') AND
 		</if>
 	</sql>
 	
 	<select id="list" resultType="com.lgy.lingua.dto.BoardDto">
-		select * from board order by idBoard desc
+		select * from lingua_board order by idBoard desc
 	</select>
 	
 	<select id="listWithPaging" resultType="com.lgy.lingua.dto.BoardDto">
 		<![CDATA[
-			select C.*
-			  from (select B.* 
-		  			  from (SELECT @ROWNUM:=@ROWNUM+1 rn, A.* FROM board A, (SELECT @ROWNUM:=0) R 
-		  			  WHERE 1=1
+			select *
+			  from (select rownum rn, idBoard, writer, writer_nickname, language, title, content, created, modified
+			  		  from lingua_board
+			  		 where
 		]]>
 					
 						<include refid="criteria"></include>
 		
 		<![CDATA[
-		  			 order by idBoard desc) B
-                     where rn <= ( #{pageNum} * #{amount} )
-	               ) C
-             where rn > ( #{pageNum} - 1 ) * #{amount}
+		  			 rownum <= ( #{pageNum} * #{amount} )
+		          order by idBoard desc
+		          )
+		          where rn > ( #{pageNum} - 1 ) * #{amount} 
 		]]>
 	</select>
 	
-	<!-- 검색조건 추가하기 전의 페이징 쿼리(사용안함) -->
-	<select id="listWithPaging2" resultType="com.lgy.lingua.dto.BoardDto">
-		<![CDATA[
-			select C.*
-			  from (select B.* 
-		  			  from (SELECT @ROWNUM:=@ROWNUM+1 rn, A.* FROM board A, (SELECT @ROWNUM:=0) R order by idBoard desc) B
-                     where rn <= ( #{pageNum} * #{amount} )
-	               ) C
-             where rn > ( #{pageNum} - 1 ) * #{amount}
-		]]>
-	</select>
-	
-	
-	
-	
+		
 	<select id="getTotalBoard" resultType="int">
-		select count(*) from board
-		WHERE 1=1
+		select count(*) from lingua_board
+		WHERE 
 		<include refid="criteria"></include>
+		1=1
 	</select>
 	
-	
-	<!-- 검색조건 추가하기 전의 게시글 수 조회하는 쿼리(사용안함) -->
-	<select id="getTotalBoard2" resultType="int">
-		select count(*) from board
-	</select>
 
 
 
 	
 	<insert id="write" parameterType="hashmap">
-		insert into board values(null, #{writer}, #{writer_nickname}, #{language}, #{title}, #{content}, default, default);
+		insert into lingua_board values(null, #{writer}, #{writer_nickname}, #{language}, #{title}, #{content}, default, default);
 	</insert>
 	
 	<select id="contentView" parameterType="hashmap" resultType="com.lgy.lingua.dto.BoardDto">
-		select * from board where idBoard=#{idBoard}
+		select * from lingua_board where idBoard=#{idBoard}
 	</select>
 	
 	<update id="edit" parameterType="hashmap">
-		update board set language=#{language}, title=#{title}, content=#{content}, modified=default where idBoard=#{idBoard}
+		update lingua_board set language=#{language}, title=#{title}, content=#{content}, modified=default where idBoard=#{idBoard}
 	</update>
 	
 	<delete id="delete" parameterType="hashmap">
-		delete from board where idBoard=#{idBoard}
+		delete from lingua_board where idBoard=#{idBoard}
 	</delete>
 	
 </mapper>

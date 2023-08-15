@@ -5,24 +5,32 @@
 <mapper namespace="com.lgy.lingua.dao.UserDao">
 	
 	<select id="login" parameterType="hashmap" resultType="com.lgy.lingua.dto.UserDto">
-		select * from user where email=#{email}
+		select * from lingua_user where email=#{email}
 	</select>
 	
 	<insert id="register" parameterType="hashmap">
-		insert into user values(#{email}, #{nickname}, #{password}, #{imgPath}, default, #{korean}, #{english}, #{japanese}, #{polish})
+		insert into lingua_user values(#{email}, #{nickname}, #{password}, #{imgPath, jdbcType=VARCHAR}, default
+									 , #{korean, jdbcType=VARCHAR}
+									 , #{english, jdbcType=VARCHAR}
+									 , #{japanese, jdbcType=VARCHAR}
+									 , #{polish, jdbcType=VARCHAR})
 	</insert>
 	
   	<update id="update" parameterType="hashmap">
-		UPDATE user SET nickname=#{nickname}, password=#{password}, imgPath=#{imgPath},
-						korean=#{korean}, english=#{english}, japanese=#{japanese}, polish=#{polish} where email = #{email}
+		UPDATE lingua_user SET nickname=#{nickname}, password=#{password}, imgPath=#{imgPath, jdbcType=VARCHAR}
+						, korean=#{korean, jdbcType=VARCHAR}
+						, english=#{english, jdbcType=VARCHAR}
+						, japanese=#{japanese, jdbcType=VARCHAR}
+						, polish=#{polish, jdbcType=VARCHAR} 
+						where email = #{email}
 	</update>
 	
   	<update id="updateTemPwd" parameterType="hashmap">
-		UPDATE user SET password=#{password} where email = #{email}
+		UPDATE lingua_user SET password=#{password} where email = #{email}
 	</update>
 	
   	<delete id="delete" parameterType="hashmap">
-  		DELETE FROM user WHERE email=#{email}
+  		DELETE FROM lingua_user WHERE email=#{email}
   	</delete>
   	
 </mapper>
