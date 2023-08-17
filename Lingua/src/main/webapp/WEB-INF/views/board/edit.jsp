@@ -21,6 +21,8 @@
 					<input type="hidden" name="idBoard" value="${board.idBoard}">
 					<input type="hidden" name="pageNum" value="${pageMaker.pageNum}">
 					<input type="hidden" name="amount" value="${pageMaker.amount}">
+					<input type="hidden" name="type" value="${pageMaker.type}">
+					<input type="hidden" name="keyword" value="${pageMaker.keyword}">
 					
 					<div class="mb-3">
 					${board.language}<br>
@@ -115,6 +117,7 @@ $(document).ready(function() {
 				if(data == "update success") {
 					alert("Change Saved!");
 					location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
+// 					location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount+"&type="+type+"&keyword="+keyword);
 				}
 			}
 		});

@@ -114,16 +114,17 @@ $(document).ready(function() {
 	var idBoard = "${pageMaker.idBoard}";
 	var pageNum = "${pageMaker.pageNum}";
 	var amount = "${pageMaker.amount}";
+	var type = "${pageMaker.type}";
+	var keyword = "${pageMaker.keyword}";
 	
-	
-	// ============= 뒤로가기 버튼 클릭 시 목록으로 이동 ============= //
+	// ============= 뒤로가기 버튼 클릭 시 목록으로 이동 (검색조건과 검색어도 같이 가져가기 추가 -> 즉 글보기 후에 목록이동하면 검색조건 그대로 살아 있음) ============= //
 	$("#list").on("click", function() {
-		location.href = urlConverter("board/list?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
+		location.href = urlConverter("board/list?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount+"&type="+type+"&keyword="+keyword);
 	});
 
 	// ============= 수정 버튼 클릭 시 idBoard 값을 가지고 컨트롤러로 이동 ============= //
 	$("#edit").on("click", function() {
-		location.href = urlConverter("board/edit?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
+		location.href = urlConverter("board/edit?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount+"&type="+type+"&keyword="+keyword);
 	});
 	
 	// ============= 삭제 버튼 클릭 시 idBoard 값을 가지고 컨트롤러로 이동 ============= //

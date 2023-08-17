@@ -141,6 +141,9 @@ public class BoardController {
 		log.debug("BoardController ===> @GetMapping(\"/contentView\")");
 		UserDto userInfo = methods.getUserInfo(session);
 		
+		log.debug("contentView -> parameter checking -> type ---> " + params.get("type"));
+		log.debug("contentView -> parameter checking -> keyword ---> " + params.get("keyword"));
+		
 		if(userInfo != null) {
 			model.addAttribute("userInfo", userInfo);
 		}
@@ -156,8 +159,11 @@ public class BoardController {
 
 	// 뷰에서 전달받은 idBoard 값으로 해당 게시글 조회(select)해서 model 객체에 추가 후 게시글 수정화면 JSP 이동 @@@ 페이징 처리를 위해 모델 객체 추가
 	@GetMapping("/edit")
-	public String edit(@RequestParam HashMap<String, String> params, Model model) {
+	public String edit(@RequestParam HashMap<String, String> params, Model model, HttpSession session) {
 		log.debug("BoardController ===> @GetMapping(\"/edit\")");
+
+		log.debug("contentView -> parameter checking -> type ---> " + params.get("type"));
+		log.debug("contentView -> parameter checking -> keyword ---> " + params.get("keyword"));
 		
 		BoardDto dto = command.contentView(params);
 		model.addAttribute("board", dto);
@@ -170,9 +176,13 @@ public class BoardController {
 	
 	// 게시글 내용 수정 처리(update)
 	@PostMapping("/edit")
-	public ResponseEntity<String> edit(@RequestParam HashMap<String, String> params) {
+	public ResponseEntity<String> edit(@RequestParam HashMap<String, String> params, Model model) {
 		log.debug("BoardController ===> @PostMapping(\"/edit\")");
 		command.edit(params);
+		
+		log.debug("contentView -> parameter checking -> type ---> " + params.get("type"));
+		log.debug("contentView -> parameter checking -> keyword ---> " + params.get("keyword"));
+		model.addAttribute("pageMaker", params);
 		
 		return ResponseEntity.ok().body("update success");
 	}
