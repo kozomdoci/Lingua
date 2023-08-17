@@ -84,11 +84,13 @@ $(document).ready(function() {
 	var idBoard = "${pageMaker.idBoard}";
 	var pageNum = "${pageMaker.pageNum}";
 	var amount = "${pageMaker.amount}";
+	var type = "${pageMaker.type}";
+	var keyword = "${pageMaker.keyword}";
 	
 	
 	// ============= 뒤로가기 버튼 클릭 시 목록으로 이동 ============= //
 	$("#contentView").on("click", function() {
-		location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
+		location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount+"&type="+type+"&keyword="+keyword);
 	});
 	
 	// ============= input 태그에 모든 값들이 입력되지 않으면 Save 버튼 비활성화 ============= //
@@ -116,8 +118,7 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data == "update success") {
 					alert("Change Saved!");
-					location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount);
-// 					location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount+"&type="+type+"&keyword="+keyword);
+					location.href = urlConverter("board/contentView?idBoard="+idBoard+"&pageNum="+pageNum+"&amount="+amount+"&type="+type+"&keyword="+keyword);
 				}
 			}
 		});
