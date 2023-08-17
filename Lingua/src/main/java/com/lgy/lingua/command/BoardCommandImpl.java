@@ -61,6 +61,8 @@ public class BoardCommandImpl implements BoardCommand {
 		BoardDao dao = sqlSession.getMapper(BoardDao.class);
 		int total = dao.getTotalBoard(cri);
 		
+		log.debug("total : " + total);
+		
 		return total;
 	}
 	

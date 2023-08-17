@@ -34,7 +34,7 @@
 	
 	<select id="listWithPaging" resultType="com.lgy.lingua.dto.BoardDto">
 		<![CDATA[
-			select *
+			select rn, idBoard, writer, writer_nickname, language, title, content, created, modified 
 			  from (select rownum rn, idBoard, writer, writer_nickname, language, title, content, created, modified
 			  		  from lingua_board
 			  		 where
@@ -63,7 +63,7 @@
 
 	
 	<insert id="write" parameterType="hashmap">
-		insert into lingua_board values(null, #{writer}, #{writer_nickname}, #{language}, #{title}, #{content}, default, default);
+		insert into lingua_board values(lingua_board_seq.nextval, #{writer}, #{writer_nickname}, #{language}, #{title}, #{content}, default, default)
 	</insert>
 	
 	<select id="contentView" parameterType="hashmap" resultType="com.lgy.lingua.dto.BoardDto">

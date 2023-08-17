@@ -5,23 +5,23 @@
 <mapper namespace="com.lgy.lingua.dao.CommentDao">
 	
 	<select id="listComment" parameterType="hashmap" resultType="com.lgy.lingua.dto.CommentDto">
-		select * from comment where idBoard=#{idBoard} order by idComment desc
+		select * from lingua_comment where idBoard=#{idBoard} order by idComment desc
 	</select>
 	
 	<insert id="writeComment" parameterType="hashmap">
-		insert into comment values(null, #{idBoard}, #{writer}, #{writer_nickname}, #{language}, #{content}, default, default)
+		insert into lingua_comment values(lingua_comment_seq.nextval, #{idBoard}, #{writer}, #{writer_nickname}, #{language}, #{content}, default, default)
 	</insert>
 
 	<select id="getCommentDetail" parameterType="hashmap">
-		select * from comment where idComment=#{idComment}
+		select * from lingua_comment where idComment=#{idComment}
 	</select>
 
 	<update id="editComment" parameterType="hashmap">
-		update comment set content=#{content}, modified=default where idComment=#{idComment}
+		update lingua_comment set content=#{content}, modified=default where idComment=#{idComment}
 	</update>
 
 	<delete id="deleteComment" parameterType="hashmap">
-		delete from comment where idComment=#{idComment}
+		delete from lingua_comment where idComment=#{idComment}
 	</delete>
 
 
