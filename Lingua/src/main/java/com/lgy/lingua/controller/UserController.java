@@ -146,6 +146,28 @@ public class UserController {
 		}
 	}
 	
+	// 카카오 로그인 아이디의 회원가입 여부 확인
+	@GetMapping("/kakaoEmailCheck")
+	public ResponseEntity<String> kakaoEmailCheck(@RequestParam HashMap<String, String> params, HttpSession session) {
+		log.debug("UserController ===> @GetMapping(\"/kakaoEmailCheck\")");
+		UserDto dto = command.login(params);
+		
+		// 회원가입된 이메일이므로 바로 로그인 처리
+		if(dto != null) {
+			log.debug("해당 카카오 이메일 주소는 우리 사이트에 회원가입된 이메일 주소임");
+			session.setAttribute("userInfo", dto);
+			session.setMaxInactiveInterval(1800);
+			return ResponseEntity.ok().body("{\"exists\": true}");
+			
+		// 회원가입되지 않은 이메일이므로 회원가입 화면으로 이동(이메일 주소 들고가기)
+		}else {
+			log.debug("해당 카카오 이메일 주소는 우리 사이트에 회원가입된 이메일 주소가 아님");
+			return ResponseEntity.ok().body("{\"exists\": false}");
+		}
+	}
+	
+	
+	
 	// 회원정보 화면 JSP 이동 및 회원정보 조회 처리(select)
 	@GetMapping("/userInfo")
 	public String userInfo(HttpSession session, Model model) {
