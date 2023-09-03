@@ -36,7 +36,7 @@
 					<div class="d-grid gap-1" style="margin-top: 20px">
 						<button id="googleLogin" class="btn btn-danger" type="button">Login with Google</button>
 						<button id="kakaoLogin" class="btn btn-warning" type="button">Login with Kakao</button>
-						<button id="naverLogin" class="btn btn-success" type="button">Login with Naver</button>
+						<button id="naverIdLogin_loginButton" class="btn btn-success" type="button">Login with Naver</button>
 					</div>
 				  	
 				</form>
@@ -48,6 +48,7 @@
 </body>
 </html>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <script>
 
 	//============= 패스워드 입력란에서 엔터키(keycode 13)를 누르면 로그인 버튼 클릭 ============= //
@@ -135,12 +136,14 @@
 						$.ajax({
 							type: "get",
 							data: { "email" : kakao_account.email },
-							url: "kakaoEmailCheck",
+							url: "apiEmailCheck",
 							dataType: "json",
 							success: function(data){
 								if(data.exists) {
+									// 해당 이메일 계정이 등록된 계정이면 바로 로그인 처리 후 홈화면
 									location.href = urlConverter("board/home");
 								}else {
+									// 해당 이메일 계정이 등록되지 않은 계정이면 이메일 가지고 회원가입 화면
 									location.href = urlConverter("user/register?email="+kakao_account.email);
 								}
 							} // ajax success
@@ -165,9 +168,55 @@
 		});
 	}
 	
+	
+	//============= 네이버 간편 로그인 버튼 클릭 시 함수 호출 ============= //
+	
+	var naverLogin = new naver.LoginWithNaverId({
+		clientId: "lNMFm9YQ_cdsgqUZdT5q",							// 내 애플리케이션 정보의 clientId
+		callbackUrl: "http://localhost:8181/lingua/user/login",		// 내 애플리케이션 API 설정의 Callback URL
+		isPopup: false,
+		callbackHandle: true
+	});
+	
+	naverLogin.init();
+	
+	window.addEventListener('load', function() {
+		naverLogin.getLoginStatus(function(status) {
+			
+			if(status){
+				console.log("네이버 간편 로그인 성공 ===> " + status);
+				
+				var email = naverLogin.user.getEmail();
+				console.log("해당 네이버 계정(즉 해당 이메일)로 우리 사이트에 가입되어 있는지 확인 ===>>> " + email);
+				
+				$.ajax({
+					type: "get",
+					data: { "email" : email },
+					url: "apiEmailCheck",
+					dataType: "json",
+					success: function(data){
+						if(data.exists) {
+							// 해당 이메일 계정이 등록된 계정이면 바로 로그인 처리 후 홈화면
+							location.href = urlConverter("board/home");
+						}else {
+							// 해당 이메일 계정이 등록되지 않은 계정이면 이메일 가지고 회원가입으로 이동
+							location.href = urlConverter("user/register?email="+email);
+						}
+					} // ajax success
+				}); // ajax
+				
+				naverLogout();
+				
+			}else {
+				console.log("callback failed");
+			}
+		});
+	});
+
+	function naverLogout() {
+		naverLogin.logout();
+	}
 </script>
-
-
 
 
 

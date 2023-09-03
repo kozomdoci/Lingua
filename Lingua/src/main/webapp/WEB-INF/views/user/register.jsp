@@ -161,13 +161,45 @@ $(document).ready(function() {
 		history.back();
 	});
 	
-	// ============= 이메일 유효성 검사 ============= //
+	// ============= URL 에서 파라미터 값을 가져오는 함수 ============= //
+	function getParameterByName(name) {
+		var url = new URL(window.location.href);
+		return url.searchParams.get(name);
+	}
+
+	// ============= 이메일 유효성 검사를 위한 변수 ============= //
 	let isEmailValid = false;
-	let isEmailAvailable = false;
 	let thisElement = document.querySelector("#email");
+	let emailRegex = /[\w\-\.]+\@[\w\-\.]+\.[\w\-\.]+/;
+
+	console.log("isEmailValid ===> "+ isEmailValid);
+	
+	
+	// ============= URL 에서 email 파라미터의 값을 가져와서 아이디가 email 인 입력태그의 값으로 지정 후 유효성 검사 ============= //
+	var emailParameter = getParameterByName("email");
+	if(emailParameter) {
+		var emailInput = document.getElementById("email");
+		emailInput.value = emailParameter;
+		
+		isEmailValid = emailRegex.test(emailParameter);
+		
+		console.log("isEmailValid ===> "+ isEmailValid);
+		
+		if(!isEmailValid) {
+			thisElement.classList.remove("is-valid");
+			thisElement.classList.add("is-invalid");
+			disableButton();
+		}else {
+			thisElement.classList.remove("is-invalid");
+			thisElement.classList.add("is-valid");
+			enableButton();
+		}
+	}
+	
+	// ============= 이메일 유효성 검사 ============= //
+	let isEmailAvailable = false;
 	thisElement.addEventListener("input", function() {
 		let inputEmail = this.value;
-		let emailRegex = /[\w\-\.]+\@[\w\-\.]+\.[\w\-\.]+/;
 		isEmailValid = emailRegex.test(inputEmail);
 		
 		var formData = { email: inputEmail };
@@ -196,6 +228,7 @@ $(document).ready(function() {
 			} // success
 		}); // ajax
 	});
+	
 	
 	// ============= 이메일 유효성 검사 및 중복확인 완료 후 이메일 인증번호 발송버튼 활성화 및 스타일 변경하는 함수 ============= //
 	function enableButton() {
